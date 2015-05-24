@@ -471,7 +471,8 @@ CMainFrame* pFrame = (CMainFrame*) AfxGetApp()->m_pMainWnd;
 		a2=0;
 		i1=0;
 		i2=0;
-		double Assim2, chanleft2, chanright2;
+		double Assim2;
+		long	chanleft2, chanright2;
 	//float Assim2_i;
 		
 //		str.Format(_T("Канал - %x"), put->chancap1 );

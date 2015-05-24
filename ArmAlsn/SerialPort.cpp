@@ -544,12 +544,15 @@ void CSerialPort::GetOverlappedResult(OVERLAPPED& overlapped, DWORD& dwBytesTran
 
 void CSerialPort::_OnCompletion(DWORD dwErrorCode, DWORD dwCount, LPOVERLAPPED lpOverlapped)
 {
+	UNREFERENCED_PARAMETER(dwErrorCode);
+	UNREFERENCED_PARAMETER(dwCount);
   //Validate our parameters
   AFXASSUME(lpOverlapped);
 
   //Convert back to the C++ world
   CSerialPort* pSerialPort = static_cast<CSerialPort*>(lpOverlapped->hEvent);
 //Vall66   AFXASSUME(pSerialPort);
+  UNREFERENCED_PARAMETER(pSerialPort); //Vall66 
 
   //Call the C++ function
 //Vall66  pSerialPort->OnCompletion(dwErrorCode, dwCount, lpOverlapped);

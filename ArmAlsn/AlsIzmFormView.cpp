@@ -197,7 +197,7 @@ void CAlsIzmFormView::OnInitialUpdate()
 	OnChangeStepsize(); //init
 	LOGFONT lf;
 	memset (&lf, 0, sizeof (LOGFONT));
-	_tcscpy (lf.lfFaceName, _T("Arial")); // !!!!!!!! Only True-Type Fonts (TTF) can be rotated
+	_tcscpy_s (lf.lfFaceName, _T("Arial")); // !!!!!!!! Only True-Type Fonts (TTF) can be rotated
 	lf.lfWeight = 700;
 	m_fontH.CreateFontIndirect(&lf);
 	lf.lfOrientation = 900;
@@ -277,7 +277,7 @@ void CAlsIzmFormView::OnCbnSelchangeItineraryIzm()
 	m_str_Longitude=theApp.m_str_Longitude_current;
 	UpdateData(FALSE);
 //AfxMessageBox(L"Положение 3");
-	CString sss, strQuery;
+	CString  strQuery; // sss,
 	//double pk=0;
 
 //	int n_records;
@@ -596,7 +596,7 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 		if (theApp.m_ipiketkp==1)  
 		{
 			m_nRange = (m_PK_obgect - m_PK_obgect_start)*1000;
-			m_pos = ((m_PK_current - m_PK_obgect_start)*100) / (m_PK_obgect - m_PK_obgect_start);
+			m_pos = (int)(((m_PK_current - m_PK_obgect_start)*100) / (m_PK_obgect - m_PK_obgect_start));
 			//m_nRange=m_nRange*1000;
 			//if(m_pos > m_nRange)	m_pos = m_nRange; //(UINT)
 			//if(m_pos < 0)	m_pos = 0;
@@ -792,7 +792,7 @@ void CAlsIzmFormView::OnOziMap()
 	////}
 	COziExplorerApi OziExplorer;
 	if (!OziExplorer.OziExplorerIsRun) return ;
-	CString sss;
+//p20150524	CString sss;
 	if (OziExplorer.GetNavWp(&sss))
 	{
 		AfxMessageBox(sss);
@@ -830,6 +830,7 @@ BOOL CAlsIzmFormView::OnDrop(COleDataObject* pDataObject, DROPEFFECT dropEffect,
 void CAlsIzmFormView::OnNMCustomdrawProgressH(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UNREFERENCED_PARAMETER(pNMCD);
 	// TODO: добавьте свой код обработчика уведомлений
 	*pResult = 0;
 }
@@ -846,7 +847,7 @@ void CAlsIzmFormView::OnChangeRange()
 	if(!UpdateData())
 		return;
 	
-	m_progressH.SetRange32(BASE, BASE+m_nRange);
+	m_progressH.SetRange32(BASE, BASE+ (int)m_nRange);
 
 	m_progressH.SetPos(BASE+m_pos);
 

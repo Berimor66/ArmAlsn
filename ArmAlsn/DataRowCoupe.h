@@ -147,7 +147,7 @@ public:
 				}
 			}
 		}
-		return OpenRowset();
+//		return OpenRowset();
 	}
 
 	HRESULT OpenRowset(DBPROPSET *pPropSet = NULL)

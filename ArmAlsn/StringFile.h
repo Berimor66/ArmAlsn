@@ -34,10 +34,10 @@ public:
 protected:
 	int m_nBufferSize;
 	CString m_szError;
-	DWORD	m_nMaxSize;
+	ULONGLONG	m_nMaxSize; //DWORD
 	DWORD	m_dwRead;
 	DWORD	m_dwLine;
-	DWORD	m_dwMasterIndex;
+	ULONGLONG	m_dwMasterIndex; //DWORD
 	DWORD	m_dwIndex;
 	int		m_nSectionCount;
 	BYTE	*m_pBuffer;

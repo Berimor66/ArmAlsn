@@ -250,8 +250,16 @@ BOOL CArmAlsnApp::InitInstance()
 	m_gstrPathSet = DATA_FILE_DAT;
 	m_gstrPathSet = m_gstrPathSet.Right(8);
 #else
-	m_gstrPathSet =  getenv("ProgramData");
-	m_gstrPathSet = m_gstrPathSet + DATA_FILE_DAT;
+	size_t len;
+	wchar_t *pValue;//
+	errno_t err = _wdupenv_s(&pValue, &len,L"ProgramData"); //m_gstrPathSet =getenv("ProgramData") p20150524
+	if (err) m_gstrPathSet = L"Config\\Alsn.dat";
+	else
+	{
+		m_gstrPathSet = pValue;
+		m_gstrPathSet = m_gstrPathSet + DATA_FILE_DAT;
+		free(pValue); // It's OK to call free with NULL
+	}
 #endif
 	
 	//AfxMessageBox(m_gstrPathSet);
@@ -758,6 +766,7 @@ struct tm getdatebyspan(int Year,int lDays)
 	struct tm tmdate;
 	time_t tibase;
 	time_t timespan;
+	UNREFERENCED_PARAMETER(timespan);
 
 	//Make Year/01/01 base date
 	tmbase.tm_year = Year - 1900;
@@ -778,6 +787,7 @@ char * getdatetime(int which,tm *dtinfo)
 
 	time_t ltm;
 	time_t timespan;
+	UNREFERENCED_PARAMETER(timespan);
 	struct tm psttm;
 	ltm = time(NULL);//їАґГіЇВҐё¦ ±ёЗСґЩ.
 	localtime_s(&psttm,&ltm);
@@ -816,12 +826,12 @@ BOOL CAboutDlg::OnInitDialog()
 
 	// TODO:  Добавить дополнительную инициализацию
 	char verfile[160];
-	char verprdt[80];
-	char baseyear[80];
+//	char verprdt[80];
+	//char baseyear[80];
 #ifdef _WIN64
-	wsprintf((LPWSTR)verfile, L"АРМ АЛСН 64 бит, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
+	_stprintf_s((LPWSTR)verfile, 160, L"АРМ АЛСН 64 бит, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
 #else
-	wsprintf((LPWSTR)verfile, L"АРМ АЛСН, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
+	_stprintf_s((LPWSTR)verfile, 160, L"АРМ АЛСН, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
 	//wsprintf((LPWSTR)verprdt, L"Версия продукта: %s",_T(VERSION_PRODUCTSTR));
 #endif
 	SetDlgItemText(IDC_VERFILE,(LPCTSTR)verfile);
@@ -834,9 +844,8 @@ BOOL CAboutDlg::OnInitDialog()
 		char dayindex[4];
 		int yi,di,year ;
 
-		sprintf(buff,"%05d",VERSION_BUILDNO);
-		strncpy(yearindex,buff,2);
-		strncpy(dayindex,buff+2,3);
+		sprintf_s(buff,"%05d",VERSION_BUILDNO); // sprintf(buff,"%05d",VERSION_BUILDNO);
+		strncpy_s(dayindex,buff+2,3);
 		yi = atoi(yearindex);
 		di = atoi(dayindex);
 

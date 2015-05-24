@@ -1,5 +1,5 @@
  
-// ??????? (ID_* ? IDM_*) 
+// Команды (ID_* и IDM_*) 
 #define HID_STATUSBAR_PANE1                     0x10078
 #define HID_STATUSBAR_PANE2                     0x10079
 #define HID_VIEW_CUSTOMIZE                      0x1007E
@@ -39,11 +39,11 @@
 #define HID_32795                               0x1801B
 #define HID_INDICATOR_TIME                      0x1E706
  
-// ??????????? (IDP_*) 
+// Приглашения (IDP_*) 
 #define HIDP_FAILED_TO_CREATE                   0x30066
 #define HIDP_OLE_INIT_FAILED                    0x30067
  
-// ??????? (IDR_*) 
+// Ресурсы (IDR_*) 
 #define HIDR_SRVR_INPLACE                       0x20004
 #define HIDR_SRVR_INPLACE_256                   0x20005
 #define HIDR_SRVR_EMBEDDED                      0x20006
@@ -66,7 +66,7 @@
 #define HIDR_TOOLBAR1                           0x20132
 #define HIDR_ALSDBFRAME_256                     0x20136
  
-// ?????????? ???? (IDD_*) 
+// Диалоговые окна (IDD_*) 
 #define HIDD_ABOUTBOX                           0x20064
 #define HIDD_DIALOG_CONFIG                      0x20086
 #define HIDD_DIALOG_CONFIG_DIRECTX              0x20087
@@ -80,7 +80,7 @@
 #define HIDD_ALSIZMFORMVIEW                     0x20131
 #define HIDD_DIALOG_CONFIG_DIRECTX1             0x20133
  
-// ???????? ?????????? ??????? (IDW_*) 
+// Элементы управления фреймов (IDW_*) 
 // This is a part of the Microsoft Foundation Classes C++ library.
 // Copyright (C) Microsoft Corporation
 // All rights reserved.
