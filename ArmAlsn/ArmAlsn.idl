@@ -1,0 +1,46 @@
+// ArmAlsn.idl : источник библиотеки типов для ArmAlsn.exe
+
+// Этот файл будет обработан компилятором MIDL для создания
+// библиотеки типов (ArmAlsn.tlb).
+
+#include "olectl.h"
+[ uuid(90F77436-35E4-4994-BA97-D589734179C3), version(1.0) ]
+library ArmAlsn
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+	//  Первичный интерфейс диспетчеризации для CArmAlsnDoc
+	
+	[ uuid(BCBF38A5-7B4C-48E1-A0C8-0F05733A6AF3) ]
+	dispinterface IArmAlsn
+	{
+		properties:
+			
+		methods:
+	};
+
+	//  Информация о классе для CArmAlsnDoc
+	
+	[ uuid(D77DB3AB-0C61-4008-9B42-C36AEB57B303) ]
+	coclass CArmAlsnDoc
+	{
+		[default] dispinterface IArmAlsn;
+	};
+	//  Первичный интерфейс диспетчеризации для DBVListView
+		
+	[ uuid(2853546B-F22C-4199-8CB4-AAFB4F1803AA) ]
+	dispinterface IDBVListView
+	{
+		properties:
+		methods:
+	};
+
+	//  Сведения о классе для DBVListView
+
+	[ uuid(6613BD2E-4BE3-469F-A0C6-85EF19271D96) ]
+	coclass DBVListView
+	{
+		[default] dispinterface IDBVListView;
+	};
+};

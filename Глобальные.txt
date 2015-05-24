@@ -1,0 +1,20 @@
+extern CString m_gstrPathDb; // Файл базы данных
+extern CString m_gstrPathWp; // Путь к папке с путевыми точками     ID_FILE_PRINT_PTR
+extern CString m_gstrPathOz; // Путь к OziExplorer
+
+
+INT_PTR		int
+strcpy_s	strcpy	strcpy_s(char*, rsize_t, conct char*)
+
+
+
+Gm - ненужно
+Переопределения
+#define DWRITE_E_ALREADYREGISTERED       _HRESULT_TYPEDEF_(0x88985006L)
+#define DWRITE_E_ALREADYREGISTERED      MAKE_DWRITE_HR_ERR(0x006)
+
+
+d:\Programings\Microsoft Visual Studio 11.0\VC\atlmfc\include\atldbcli.h  проверить
+d:\Programings\Microsoft Visual Studio 11.0\VC\atlmfc\include\afxdlgs.h
+D:\Programings\Microsoft Visual Studio 11.0\VC\atlmfc\include\afxwin.h
+D:\Programings\Microsoft Visual Studio 11.0\VC\atlmfc\include\afxodlgs.h

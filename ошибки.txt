@@ -1,0 +1,1 @@
+bass.lib(BASS.dll) : error LNK2026: небезопасный модуль для образа SAFESEH

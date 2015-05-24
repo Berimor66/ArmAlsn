@@ -1,0 +1,654 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Разделы справки HTML">
+      <UniqueIdentifier>{f4aadfec-9162-4562-ab50-35dbe718fa98}</UniqueIdentifier>
+      <Extensions>htm;html</Extensions>
+    </Filter>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Файлы справки HTML">
+      <UniqueIdentifier>{8199838f-e4b7-4ab8-88f7-8ce65431d55f}</UniqueIdentifier>
+      <Extensions>hhp;hhc;hhk;gif;jpg</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ArmAlsn.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmAlsnDoc.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmAlsnView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="CntrItem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigAppDlg.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigDat.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigDirectX.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigGPS.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="DBVListDoc.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="DBVListFrm.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="DBVListView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="EmpView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="enumser.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="OscilloscopeDoc.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="OscilloscopeFrm.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="OscilloscopeView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputWnd.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="SerialPort.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="SrvrItem.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewPut.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AlsDbFormView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AlsDbFrame.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AlsDbDoc.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AlsDbGridView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AlsIzmFormView.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="DIB.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigSound.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="IpFrame.cpp">
+      <Filter>Файлы справки HTML</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigPath.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewAsim.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="HyperLink.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="StringFile.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="OziExplorerApi.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressCtrlX.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="ArmAlsn.idl">
+      <Filter>Файлы исходного кода</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ArmAlsn.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmAlsnDoc.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmAlsnView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="bass.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="CntrItem.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigAppDlg.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigDat.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigDirectX.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigGPS.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DataRowset.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DataRowsetALS.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DBVListDoc.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DBVListFrm.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DBVListView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="EmpView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="enumser.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="IpFrame.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="OscilloscopeDoc.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="OscilloscopeFrm.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="OscilloscopeView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputWnd.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="SerialPort.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="SrvrItem.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewPut.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AlsDbFormView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AlsDbFrame.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AlsDbDoc.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AlsDbGridView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DataRowItinerary.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DataRowCoupe.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="AlsIzmFormView.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DataRowObject.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="DIB.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigSound.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="VersionInfo.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigPath.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewAsim.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="VersionNo.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="HyperLink.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="StringFile.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="OziExplorerApi.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawgdix.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MemDC.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressCtrlX.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\ArmALSN10v3_20100321\verisign.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="..\..\ArmALSN10v3_20100321\verisign.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="ArmAlsn.reg" />
+    <None Include="hlp\afxo0001.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_changeicon.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_color.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_convert.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_editlinks.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_fileopen.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_filesave.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_find.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_font.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_insertobject.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_newtypedlg.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_pastespecial.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_print.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_printdlg.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_printsetup.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidd_replace.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidp_default.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_dockbar_top.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_preview_bar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_resize_bar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_status_bar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\afx_hidw_toolbar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\ArmAlsn.hhc">
+      <Filter>Файлы справки HTML</Filter>
+    </None>
+    <None Include="hlp\ArmAlsn.hhk">
+      <Filter>Файлы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hidr_doc1type.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_app_about.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_app_exit.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_context_help.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_clear.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_clear_all.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_copy.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_cut.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_find.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_paste.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_paste_link.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_redo.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_repeat.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_replace.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_edit_undo.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_close.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_mru_file1.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_new.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_open.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_page_setup.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_print.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_print_preview.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_print_setup.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_save.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_save_as.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_save_copy_as.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_send_mail.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_file_update.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_help_index.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_help_using.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_ht_caption.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_ht_nowhere.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_next_pane.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_ole_edit_links.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_ole_insert_new.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_ole_verb_1.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_prev_pane.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_close.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_maximize.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_minimize.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_move.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_nextwindow.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_prevwindow.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_restore.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_size.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_sc_tasklist.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_view_ruler.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_view_status_bar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_view_toolbar.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_all.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_arrange.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_cascade.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_new.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_split.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile_horz.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\hid_window_tile_vert.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\Images\Bullet.gif">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="hlp\main_index.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\menu_edit.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\menu_file.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\menu_help.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\menu_view.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\menu_window.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="hlp\scrollbars.htm">
+      <Filter>Разделы справки HTML</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+    <None Include="res\ArmAlsn.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ArmAlsn.rc2">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ArmAlsnDoc.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\bmp00001.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\DBVList.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\DBVListDoc.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\idr_main.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\IToolbar.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\IToolbar256.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\mainfram.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\OToolbar.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\OToolbar256.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\output_wnd.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\output_wnd_hc.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\toolbar1.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\Toolbar256.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ToolbarDBV.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="UserImages.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\verisign.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\alsdbfra.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ToolbarDBV256.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ViewPutb.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="res\ViewPuts.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="..\..\..\Add\Deleaker for Visual C++\PostInstallGuide\PostInstall.hta">
+      <Filter>Заголовочные файлы</Filter>
+    </None>
+    <None Include="res\bitmap_pb.bmp">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ArmAlsn.rc">
+      <Filter>Файлы ресурсов</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="hlp\ArmAlsn.hhp">
+      <Filter>Файлы справки HTML</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Resource.h">
+      <Filter>Заголовочные файлы</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

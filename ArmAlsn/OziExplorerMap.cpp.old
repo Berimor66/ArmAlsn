@@ -1,0 +1,401 @@
+#include "stdafx.h"
+#include "OziExplorerMap.h"
+#include <io.h>
+
+COziExplorerMap::COziExplorerMap(void)
+{
+	//LoadOziApiDll;
+}
+
+
+COziExplorerMap::~COziExplorerMap(void)
+{
+	//oziCloseApi();
+}
+
+
+int COziExplorerMap::LoadOziApiDll(void)
+{
+	oziApiDll = LoadLibrary(L"oziapi.dll");
+	if (oziApiDll == NULL)  {return -1;}
+
+	oziGetExePath = (ToziGetExePath)GetProcAddress(oziApiDll,"oziGetExePath");
+	if (!oziGetExePath) { FreeLibrary(oziApiDll);return -2;}
+
+	oziGps2NavWp = (ToziGps2NavWp)GetProcAddress(oziApiDll,"oziGps2NavWp");
+	if (!oziGps2NavWp) { FreeLibrary(oziApiDll);return -3;}
+
+	oziCloseProgram = (ToziCloseProgram)GetProcAddress(oziApiDll,"oziCloseProgram");
+	if (!oziCloseProgram) { FreeLibrary(oziApiDll);return -2;}
+
+	oziFindOzi = (ToziFindOzi)GetProcAddress(oziApiDll,"oziFindOzi");
+	if (!oziFindOzi) { FreeLibrary(oziApiDll);return -2;}
+
+	oziClearWPs = (ToziClearWPs)GetProcAddress(oziApiDll,"oziClearWPs");
+	if (!oziClearWPs) { FreeLibrary(oziApiDll);return -2;}
+	
+	oziLoadWPfile = (ToziLoadWPfile)GetProcAddress(oziApiDll,"oziLoadWPfile");
+	if (!oziLoadWPfile) { FreeLibrary(oziApiDll);return -2;}
+
+	oziLoadRTEfile = (ToziLoadRTEfile)GetProcAddress(oziApiDll,"oziLoadRTEfile");
+	if (!oziLoadRTEfile) { FreeLibrary(oziApiDll);return -2;}
+
+	oziStartMMserial = (ToziStartMMserial)GetProcAddress(oziApiDll,"oziStartMMserial");
+	if (!oziStartMMserial) { FreeLibrary(oziApiDll);return -2;}
+
+	oziShowTrack = (ToziShowTrack)GetProcAddress(oziApiDll,"oziShowTrack");
+	if (!oziShowTrack) { FreeLibrary(oziApiDll);return -2;}
+	
+	oziCloseApi = (ToziCloseApi)GetProcAddress(oziApiDll,"oziCloseApi");
+	if (!oziCloseApi) { FreeLibrary(oziApiDll);return -2;}
+	
+	oziSendMMpositionON = (ToziSendMMpositionON)GetProcAddress(oziApiDll,"oziSendMMpositionON");
+	if (!oziSendMMpositionON) { FreeLibrary(oziApiDll);return -2;}
+	
+	oziSendMMpositionOFF = (ToziSendMMpositionOFF)GetProcAddress(oziApiDll,"oziSendMMpositionOFF");
+	if (!oziSendMMpositionOFF) { FreeLibrary(oziApiDll);return -2;}
+
+	// Пройденный путь
+	///
+	oziOedometer1ON = (ToziOedometer1ON)GetProcAddress(oziApiDll,"oziOedometer1ON");
+	if (!oziOedometer1ON) { FreeLibrary(oziApiDll);return -2;}
+	
+	oziOedometer1OFF = (ToziOedometer1OFF)GetProcAddress(oziApiDll,"oziOedometer1OFF");
+	if (!oziOedometer1OFF) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer1Reset = (ToziOedometer1Reset)GetProcAddress(oziApiDll,"oziOedometer1Reset");
+	if (!oziOedometer1Reset) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer1Set = (ToziOedometer1Set)GetProcAddress(oziApiDll,"oziOedometer1Set");
+	if (!oziOedometer1Set) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer1UP = (ToziOedometer1UP)GetProcAddress(oziApiDll,"oziOedometer1UP");
+	if (!oziOedometer1UP) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer1DOWN = (ToziOedometer1DOWN)GetProcAddress(oziApiDll,"oziOedometer1DOWN");
+	if (!oziOedometer1DOWN) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2ON = (ToziOedometer2ON)GetProcAddress(oziApiDll,"oziOedometer2ON");
+	if (!oziOedometer2ON) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2OFF = (ToziOedometer2OFF)GetProcAddress(oziApiDll,"oziOedometer2OFF");
+	if (!oziOedometer2OFF) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2Reset = (ToziOedometer2Reset)GetProcAddress(oziApiDll,"oziOedometer2Reset");
+	if (!oziOedometer2Reset) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2Set = (ToziOedometer2Set)GetProcAddress(oziApiDll,"oziOedometer2Set");
+	if (!oziOedometer2Set) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2UP = (ToziOedometer2UP)GetProcAddress(oziApiDll,"oziOedometer2UP");
+	if (!oziOedometer2UP) { FreeLibrary(oziApiDll);return -2;}
+
+	oziOedometer2DOWN = (ToziOedometer2DOWN)GetProcAddress(oziApiDll,"oziOedometer2DOWN");
+	if (!oziOedometer2DOWN) { FreeLibrary(oziApiDll);return -2;}
+	///
+	return 0;
+}
+
+CString COziExplorerMap::GetOziExePath()
+{
+	int DataLength;
+	LPSTR bb;
+
+	oziGetExePath(&bb,&DataLength);  //(char**)
+	return (CString) bb;
+}
+
+CString COziExplorerMap::GetNavWp()
+{
+	if (LoadOziApiDll()!=0) {AfxMessageBox(L"OziAPI.dll could not be loaded");};
+	CString NavWp;
+int res;
+LPSTR wnameA;
+LPSTR wdescriptionA;
+double bearing;  //курс
+double wdistance1;
+
+	//CString NavWp;// = L"Ошибка получения данных";
+	//double wdistance1 = 0;
+	res=100;
+	wnameA = "10001/1001";
+	wdescriptionA = "Например Километровый столб";
+	bearing = 0;  //курс
+	wdistance1 = 0;
+//	if (!(
+	// успешно 1
+		//res = -1;
+		res =	oziGps2NavWp(&wnameA, &wdescriptionA, &wdistance1, &bearing ); //))
+		if (res == -1) AfxMessageBox (L"OziExplorer oziGps2NavWp Ошибка получения данных");
+		{
+			//wname = (CString) wnameA;
+	//		int res2 = res;
+///			AfxMessageBox(wname,0,0);
+//			return NavWp;
+			CString strres;
+			strres.Format(L"Результат %d",res);
+
+			strres = wnameA;
+			//strres = strres + wdescriptionA;
+			AfxMessageBox(strres);
+		}
+//	int res1 = res;
+	// переводим ANSI в UNICODE
+	//AfxMessageBox(wname);
+/*
+	wname = (CString) wnameA;
+	//AfxMessageBox(wname);
+	wdescription = (CString) wdescriptionA;
+	AfxMessageBox(wdescription);
+	NavWp.Format(L" до него %.0fм, курс %.2f", wdistance, bearing);
+	NavWp = wname + " -" + wdescription + " " + NavWp;
+*/
+	NavWp =L"11";
+	return NavWp;
+}
+
+int COziExplorerMap::CheckOziExplorerRunning()
+{
+	int res = oziFindOzi();
+	return res;
+}
+
+
+int COziExplorerMap::CloseOziExplorer()
+{
+	int res = oziCloseProgram();
+	return res;
+}
+
+
+int COziExplorerMap::ClearAllWaypoints()
+{
+	int res = oziClearWPs();
+	return res;
+}
+
+int COziExplorerMap::StartMovingMapSerial()
+{
+//	if (oziStartMMserial)
+//	{
+		int res = oziStartMMserial();
+		return res;
+//	}
+}
+// Загрузить пуевые точки
+int COziExplorerMap::LoadWaypoint(CString wpfileW)
+{
+	CString wpfileW_o = wpfileW;  // Запоминаем маршрут для переворота
+	LPSTR WpFileName = (LPSTR) malloc(100);
+	int res=0;
+	wpfileW = m_gstrPathWp + L"\\км столбы " + wpfileW + L".wpt"; // полный путь файла
+	strcpy_s(WpFileName,(rsize_t)100,(CStringA) wpfileW);
+//	CString strwpfileW  = (CString) WpFileName;
+//	AfxMessageBox(L"Точки из "+strwpfileW);
+
+	if (_access_s(WpFileName,0)) // если файла нет - проверяем обратный маршрут
+	{
+		// Переворачиваем маршрут
+		wpfileW_o = wpfileW_o.Right(wpfileW_o.Find(L'-')-1) + L" - "+ wpfileW_o.Left(wpfileW_o.Find(L'-'));
+		wpfileW_o.Trim(_T(' '));
+		wpfileW_o = m_gstrPathWp + L"\\км столбы " + wpfileW_o + L".wpt";
+		strcpy_s(WpFileName,(rsize_t)100,(CStringA) wpfileW_o);
+		if (_access_s(WpFileName,0)) // если файла нет - выходим
+		{
+			free(WpFileName);
+			AfxMessageBox (L"Файлы путевых точек: " + wpfileW + L" или " + wpfileW_o + L" не найдены");
+			return -1;
+		}
+	}
+		res = oziLoadWPfile(&WpFileName); //&WpFileName
+		free(WpFileName);
+		//	AfxMessageBox(L"nasliwpt");
+		return res;  // 0 при удаче
+}
+
+// Загрузить маршрут
+int COziExplorerMap::LoadRouteFile(CString rfileW)
+{
+	CString rfileW_o = rfileW;  // Запоминаем маршрут для переворота
+	LPSTR WpFileName = (LPSTR) malloc((rsize_t)100);  // (rsize_t) не нужно, но в следующем
+	int res=0;
+	rfileW =  m_gstrPathWp + L"\\" + rfileW + L".rte"; // полный путь файла
+	strcpy_s(WpFileName,(rsize_t)100,(CStringA) rfileW);
+//	CString strwpfileW  = (CString) WpFileName;
+//	AfxMessageBox(L"Маршрут из "+strwpfileW);
+	if (_access_s(WpFileName,0)) // если файла нет - проверяем обратный маршрут
+	{
+		// Переворачиваем маршрут
+		rfileW_o = rfileW_o.Right(rfileW_o.Find(L'-')-1) + L" - "+ rfileW_o.Left(rfileW_o.Find(L'-'));
+		rfileW_o.Trim(_T(' '));
+		rfileW_o = m_gstrPathWp + L"\\" + rfileW_o + L".rte";
+		strcpy_s(WpFileName,(rsize_t)100,(CStringA)rfileW_o);
+		if (_access_s(WpFileName,0)) // если файла нет - выходим
+		{
+			free(WpFileName);
+			AfxMessageBox (L"Файлы путевых точек: " + rfileW + L" или " + rfileW_o + L" не найдены");
+			return -1;
+		}
+	}
+
+	res = oziLoadRTEfile(&WpFileName);
+//	strwpfileW  = (CString) WpFileName;
+//	strwpfileW = L"Маршрут загружен "+ strwpfileW;
+//	AfxMessageBox(strwpfileW);
+	free(WpFileName);
+	return res; // 0 при удаче
+}
+
+int COziExplorerMap::ShowATrack(int n)
+{
+	int res = oziShowTrack(&n);
+	return res;
+}
+
+int COziExplorerMap::ClosingAPI()
+{
+	int res = oziCloseApi();
+	return res;
+}
+
+int COziExplorerMap::SendMMpositionON() //DWORD_PTR& MMpositionCallback1
+{
+	int res = oziSendMMpositionON((int*)& MMpositionCallback);
+	return res;
+}
+
+int COziExplorerMap::SendMMpositionOFF(void)
+{
+	int res = oziSendMMpositionOFF();
+	return res;
+}
+
+void MMpositionCallback(double* Lat,double* Lon,double* speed,double* heading,double* magvar,double* altitude)
+{
+	COziExplorerMap::OziPosition op;
+	op.Lat = *Lat;
+	op.Lon = *Lon;
+	op.speed = *speed;
+	op.heading = *heading;
+	op.magvar = *magvar;
+	op.altitude = *altitude;
+}
+
+int COziExplorerMap::OedometerON(int n, double* set, int* Up)
+{
+	typedef int (CALLBACK* ToziOedometerSet)(int *);
+	typedef int (CALLBACK* ToziOedometerInc)(void);		// На увеличение/Уменьшение
+	ToziOedometerSet oziOedometerSet;
+	ToziOedometerInc oziOedometerInc;
+
+
+	int res=-1;
+	switch(n)
+	{
+		case 1 :
+			oziOedometerSet = (ToziOedometerSet)GetProcAddress(oziApiDll,"oziOedometer1Set");
+			if (*Up==1) 
+			{
+				oziOedometerInc = (ToziOedometerInc)GetProcAddress(oziApiDll,"oziOedometer1UP");
+			}
+			else oziOedometerInc = (ToziOedometerInc)GetProcAddress(oziApiDll,"oziOedometer1DOWN");
+			res = oziOedometer1ON((int*)& Oedometer1);
+			res;
+
+			break;
+		case 2 :
+			oziOedometerSet = (ToziOedometerSet)GetProcAddress(oziApiDll,"oziOedometer2Set");
+			if (*Up==1) 
+			{
+				oziOedometerInc = (ToziOedometerInc)GetProcAddress(oziApiDll,"oziOedometer2UP");
+			}
+			else oziOedometerInc = (ToziOedometerInc)GetProcAddress(oziApiDll,"oziOedometer2DOWN");
+			res = oziOedometer2ON((int*)& Oedometer2);
+			break;
+		default:
+			return res; // -1 Ошибка выбора  путимера
+	}
+
+	if (res) return res;
+	res = oziOedometerInc();
+	if (res) return res;
+//	res = oziOedometerSet(set);
+//	if (res) return res;
+	double ds = 300;
+	double *dis = &ds;
+	oziOedometer1Set(dis);
+	return 0;
+}
+
+int COziExplorerMap::OedometerOFF(int n)
+{
+	typedef int (CALLBACK* ToziOedometerOFF)(void);
+	ToziOedometerOFF oziOedometerOFF;
+	switch(n)
+	{
+		case 1 :
+			oziOedometerOFF = (ToziOedometerOFF)GetProcAddress(oziApiDll,"oziOedometer1OFF");
+			break;
+		case 2 :
+			oziOedometerOFF = (ToziOedometerOFF)GetProcAddress(oziApiDll,"oziOedometer2OFF");
+			break;
+		default:
+			return -1;
+	}
+	return oziOedometerOFF();
+}
+double dd1;
+double distance;
+void Oedometer1(double* distance)
+{
+	//COziExplorerMap::OziPosition op;
+	//op.distance1 = * distance;
+	double dd;
+	dd1 = * distance;
+	//dd1 = *distance;
+	CString ss;
+	ss.Format(L"прошли %d", dd1);
+	AfxMessageBox(dd);
+}
+
+void Oedometer2(double* distance)
+{
+	COziExplorerMap::OziPosition op;
+	op.distance2 = * distance;
+}
+
+int COziExplorerMap::OedometerReset(int n)
+{
+	typedef int (CALLBACK* ToziOedometerReset)(void);
+	ToziOedometerReset oziOedometerReset;
+	switch(n)
+	{
+		case 1 :
+			oziOedometerReset = (ToziOedometerReset)GetProcAddress(oziApiDll,"oziOedometer1Reset");
+			break;
+		case 2 :
+			oziOedometerReset = (ToziOedometerReset)GetProcAddress(oziApiDll,"oziOedometer2Reset");
+			break;
+		default:
+			return -1;
+	}
+	return oziOedometerReset();
+}
+
+int COziExplorerMap::OedometerSet(int n, double * meter)
+{
+	typedef int (CALLBACK* ToziOedometerSet)(double *);
+	ToziOedometerSet oziOedometerSet;
+	switch(n)
+	{
+		case 1 :
+			oziOedometerSet = (ToziOedometerSet)GetProcAddress(oziApiDll,"oziOedometer1Set");
+			break;
+		case 2 :
+			oziOedometerSet = (ToziOedometerSet)GetProcAddress(oziApiDll,"oziOedometer2Set");
+			break;
+		default:
+			return -1;
+	}
+	return oziOedometerSet(meter);
+}

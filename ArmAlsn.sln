@@ -1,0 +1,101 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArmAlsn", "ArmAlsn\ArmAlsn.vcxproj", "{E8CC2362-1920-4627-B505-F3DF78702AE3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "minioschil", "minioschil\minioschil.vcxproj", "{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alsn", "Alsn\alsn.vcxproj", "{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "livespec", "livespec\livespec.vcxproj", "{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|Win32.Build.0 = Debug|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|x64.ActiveCfg = Debug|x64
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Debug|x64.Build.0 = Debug|x64
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|Win32.ActiveCfg = Release|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|Win32.Build.0 = Release|Win32
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|x64.ActiveCfg = Release|x64
+		{E8CC2362-1920-4627-B505-F3DF78702AE3}.Release|x64.Build.0 = Release|x64
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|Win32.Build.0 = Debug|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|x64.ActiveCfg = Debug|x64
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Debug|x64.Build.0 = Debug|x64
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Release|Win32.ActiveCfg = Release|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Release|Win32.Build.0 = Release|Win32
+		{BFA694FE-324E-4F25-BBF1-D1B1EF2D1293}.Release|x64.ActiveCfg = Release|x64
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Mixed Platforms.ActiveCfg = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Mixed Platforms.Build.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Mixed Platforms.Deploy.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Win32.ActiveCfg = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Win32.Build.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|Win32.Deploy.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Debug|x64.ActiveCfg = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Mixed Platforms.Deploy.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Win32.ActiveCfg = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Win32.Build.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|Win32.Deploy.0 = Release|Win32
+		{6AAE12B9-8731-4CDE-BD76-EC5B4EC5AE48}.Release|x64.ActiveCfg = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Mixed Platforms.Deploy.0 = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Win32.Build.0 = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|Win32.Deploy.0 = Debug|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|x64.ActiveCfg = Debug|x64
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|x64.Build.0 = Debug|x64
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Debug|x64.Deploy.0 = Debug|x64
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Mixed Platforms.Deploy.0 = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Win32.ActiveCfg = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Win32.Build.0 = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|Win32.Deploy.0 = Release|Win32
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|x64.ActiveCfg = Release|x64
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|x64.Build.0 = Release|x64
+		{CFE271AF-8EB3-85BD-0E11-B611E4F342BC}.Release|x64.Deploy.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://atsuzd.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Alsn\\alsn.vcxproj
+		SccProjectName1 = Alsn
+		SccLocalPath1 = Alsn
+		SccProjectUniqueName2 = ArmAlsn\\ArmAlsn.vcxproj
+		SccProjectName2 = ArmAlsn
+		SccLocalPath2 = ArmAlsn
+		SccProjectUniqueName3 = livespec\\livespec.vcxproj
+		SccProjectName3 = livespec
+		SccLocalPath3 = livespec
+		SccProjectUniqueName4 = minioschil\\minioschil.vcxproj
+		SccProjectName4 = minioschil
+		SccLocalPath4 = minioschil
+	EndGlobalSection
+EndGlobal

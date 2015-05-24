@@ -1,0 +1,1 @@
+#define __PROJ__VERSION__STRING__ "2.110627"

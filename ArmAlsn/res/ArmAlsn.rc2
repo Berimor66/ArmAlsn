@@ -1,0 +1,64 @@
+//
+// ArmAlsn.RC2 - ресурсы, не редактируемые непосредственно в Microsoft Visual C++
+//
+
+#ifdef APSTUDIO_INVOKED
+#error этот файл нельзя редактировать в Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Добавьте здесь вручную отредактированные ресурсы...
+
+/////////////////////////////////////////////////////////////////////////////
+#include "VersionNo.h"
+
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 		VERSION_FILE
+ PRODUCTVERSION VERSION_PRODUCT
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK  //0x3fL
+#ifdef _DEBUG
+ FILEFLAGS (0x9L) //|0x1L-VER_DEBUG 0x1L  0x8L-VER_PRIVATEBUILD|  0x2L-VER_PRERELEASE  0x4L-Patched Version
+#else
+ FILEFLAGS (0x8L) //0x0L  |VER_DEBUG VER_PRIVATEBUILD|
+#endif
+ FILEOS  0x4L// VOS__WINDOWS32 0x4L   VOS_NT_WINDOWS64
+ FILETYPE VFT_APP // VFT_APP 0x1L
+ FILESUBTYPE  VFT2_UNKNOWN // VFT2_UNKNOWN  0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+       // BLOCK "040904e4" - английский
+	#ifdef UNICODE
+	BLOCK "041904B0"
+	#else
+    BLOCK "041904E3"
+	#endif
+        BEGIN
+            VALUE "Компания", "Дорожная лаборатория А. Т. и С. Южной ж.д." // VER_COMPANYNAME_STR
+            VALUE "Описание файла", "АРМ ШЛИ АЛСН" //VER_FILEDESCRIPTION_STR
+            VALUE "Версия файла", VERSION_FILESTR
+            VALUE "Внутреннее имя", "ArmAlsn.exe" // VER_INTERNALNAME_STR
+            VALUE "Авторские права", "Все права принадлежат Пелых Валерию Владимировичу, вагон - лаборатория А. Т. и С. Южной ж.д." //VER_LEGALCOPYRIGHT_STR
+            VALUE "С использованием библиотеки", "BASS 2.4.10 C/C++ header file Copyright (c) 1999-2013 Un4seen Developments Ltd."//VER_LEGALTRADEMARKS1_STR
+            VALUE "С использованием компонент", "Naughter, Copyright (c) 1998 - 2013 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)"//VER_LEGALTRADEMARKS2_STR
+            VALUE "С использованием контрола", "HyperLink static control Copyright Chris Maunder, 1997-1999 (cmaunder@mail.com)"
+	    VALUE "С использованием контрола", "VERSION CONTROL BUILD SYSTEM Copyright(c) 2005-2007 Yeamaec Communication.Co,.Ltd. "
+	    VALUE "Исходное имя", "ArmAlsn.exe" // VER_ORIGINALFILENAME_STR
+            VALUE "Название продукта", "АРМ Измерение параметров АЛСН" // VER_PRODUCTNAME_STR
+            VALUE "Версия продукта", VERSION_PRODUCTSTR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+ 	/* supports English language (0x409) in the Windows ANSI codepage (1252). */
+        VALUE "Translation", 0x419, 1251
+    END
+END

@@ -1,0 +1,4 @@
+IDC_COMBO_PORT	m_ComboPort
+
+IDC_UZL_TO_KM4	m_Uzl_to_Km4
+

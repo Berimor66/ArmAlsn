@@ -1,0 +1,30 @@
+do
+		{
+			int x2=Ratio;
+			for(INT x1=0;x1<Ratio;x1++)
+			{
+				S=S+(int)(buf[x*ci.chans+c]);
+				if (x<SPECWIDTH) x++;
+				else 
+					{
+						S=S*Ratio/x1;  ///368
+						x2=x1;
+						x3=x1;
+						x1=Ratio;
+						x=x;
+					}
+			}
+			S=S/Ratio;
+			int ind=0,ind1=0,ind2=0;
+			ind = x*ci.chans+c;
+			for(;x2>0;x2--)
+			{
+				buf[x*ci.chans+c-x2]=S;
+			
+				ind1 = (x-x2)*ci.chans+c;
+				ind2 = (x*ci.chans+c)-x2;
+
+			}
+
+
+		} while (x<(SPECWIDTH-Ratio+x3));  //freq

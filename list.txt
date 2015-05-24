@@ -1,0 +1,8 @@
+	TabItem.pszText = _T("Устройства");
+//  1-я
+  	TabItem.pszText = _T("GPS"); 
+//  2-я
+	TabItem.pszText = _T("Звук");
+// 3-я
+	TabItem.pszText = _T("Пути");
+// 4-я

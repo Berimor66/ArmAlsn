@@ -1,0 +1,4 @@
+IDC_PK_V_IZM	 m_strPK_current
+IDC_TOK_IZM	 m_strTOK_current
+
+cSharedData

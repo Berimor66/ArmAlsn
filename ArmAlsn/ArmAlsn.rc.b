@@ -1,0 +1,901 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// русский resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)\r\n"
+    "LANGUAGE 25, 1\r\n"
+    "#pragma code_page(1251)\r\n"
+    "#include ""res\\ArmAlsn.rc2""  // ресурсы, не редактируемые в Microsoft Visual C++\r\n"
+    "#include ""l.RUS\\afxres.rc""          // Стандартные компоненты\r\n"
+    "#include ""l.RUS\\afxprint.rc""        // ресурсы для печати/предварительного просмотра\r\n"
+    "#include ""l.RUS\\afxolecl.rc""        // Ресурсы контейнера OLE\r\n"
+    "#include ""l.RUS\\afxolesv.rc""        // Ресурсы сервера OLE\r\n"
+    "#if !defined(_AFXDLL)\r\n"
+    "#include ""l.RUS\\afxribbon.rc""               // лента MFC и ресурсы панели управления\r\n"
+    "#endif\r\n"
+    "#endif\r\n"
+    "1 TYPELIB ""ArmAlsn.tlb""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\ArmAlsn.ico"
+IDR_ArmAlsnTYPE         ICON                    "res\\ArmAlsnDoc.ico"
+IDI_OUTPUT_WND          ICON                    "res\\output_wnd.ico"
+IDI_OUTPUT_WND_HC       ICON                    "res\\output_wnd_hc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+IDR_MAINFRAME_256       BITMAP                  "res\\Toolbar256.bmp"
+IDR_OSCILLOSCOPEFRAME   BITMAP                  "res\\OToolbar.bmp"
+IDR_OSCILLOSCOPEFRAME_256 BITMAP                "res\\OToolbar256.bmp"
+IDR_SRVR_INPLACE        BITMAP                  "res\\IToolbar.bmp"
+IDR_SRVR_INPLACE_256    BITMAP                  "res\\IToolbar256.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+IDR_MAINFRAME_256 TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+IDR_OSCILLOSCOPEFRAME TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+IDR_OSCILLOSCOPEFRAME_256 TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+IDR_SRVR_INPLACE TOOLBAR  16, 16
+BEGIN
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_APP_ABOUT
+    BUTTON      ID_CONTEXT_HELP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU 
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "Новая ра&мка",                ID_FILE_NEW_FRAME
+        MENUITEM "Созд&ать\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "&Открыть...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Со&хранить\tCtrl+S",          ID_FILE_SAVE
+        MENUITEM "Сохранить &как...",           ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM "Пред&варительный просмотр",   ID_FILE_PRINT_PREVIEW
+        MENUITEM "Нас&тройка печати...",        ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Последний файл",              ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "В&ыход",                      ID_APP_EXIT
+    END
+    POPUP "&Правка"
+    BEGIN
+        MENUITEM "&Отменить\tCtrl+Z",           ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM "&Специальная вставка...",     ID_EDIT_PASTE_SPECIAL
+        MENUITEM SEPARATOR
+        MENUITEM "Вставить &новый объект...",   ID_OLE_INSERT_NEW
+        MENUITEM "Св&язи...",                   ID_OLE_EDIT_LINKS
+        MENUITEM "<<КОМАНДЫ OLE>>",             ID_OLE_VERB_FIRST
+    END
+    POPUP "Сервис"
+    BEGIN
+        MENUITEM "Disco",                       ID_DISCO
+        MENUITEM "Конфигурация",                ID_CONFIG
+    END
+    POPUP "&Вид"
+    BEGIN
+        POPUP "&Панели инструментов и закрепляемые окна"
+        BEGIN
+            MENUITEM "<местозаполнитель>",          ID_VIEW_TOOLBAR
+        END
+        MENUITEM "&Строка состояния",           ID_VIEW_STATUS_BAR
+        POPUP "&Вид приложения"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio.NET 200&5",     ID_VIEW_APPLOOK_VS_2005
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "&Голубой стиль",              ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "Ч&ерный стиль",               ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "&Серебристый стиль",          ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "&Зеленовато-голубой стиль",   ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+        MENUITEM "&Разделить",                  ID_WINDOW_SPLIT
+        MENUITEM SEPARATOR
+        MENUITEM "Асимметрия",                  ID_MyBass
+        MENUITEM SEPARATOR
+        POPUP "Выбор языка"
+        BEGIN
+            MENUITEM "По умолчанию",                ID_LANGUAGE_FIRST
+        END
+    END
+    POPUP "&Справка"
+    BEGIN
+        MENUITEM "&Вызов справки",              ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&О проекте ArmAlsn...",       ID_APP_ABOUT
+    END
+END
+
+IDR_CNTR_INPLACE MENU 
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "Новая ра&мка",                ID_FILE_NEW_FRAME
+        MENUITEM "Созд&ать\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "&Открыть...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Со&хранить\tCtrl+S",          ID_FILE_SAVE
+        MENUITEM "Сохранить &как...",           ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM "Пред&варительный просмотр",   ID_FILE_PRINT_PREVIEW
+        MENUITEM "Нас&тройка печати...",        ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Последний файл",              ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "В&ыход",                      ID_APP_EXIT
+    END
+    MENUITEM SEPARATOR
+    MENUITEM SEPARATOR
+END
+
+IDR_SRVR_INPLACE MENU 
+BEGIN
+    POPUP "&Правка"
+    BEGIN
+        MENUITEM "&Отменить\tCtrl+Z",           ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM "&Специальная вставка...",     ID_EDIT_PASTE_SPECIAL
+        MENUITEM SEPARATOR
+        MENUITEM "Вставить &новый объект...",   ID_OLE_INSERT_NEW
+        MENUITEM "Св&язи...",                   ID_OLE_EDIT_LINKS
+        MENUITEM "<<КОМАНДЫ OLE>>",             ID_OLE_VERB_FIRST
+    END
+    POPUP "&Вид"
+    BEGIN
+        POPUP "&Панели инструментов и закрепляемые окна"
+        BEGIN
+            MENUITEM "<местозаполнитель>",          ID_VIEW_TOOLBAR
+        END
+    END
+    MENUITEM SEPARATOR
+    MENUITEM SEPARATOR
+    POPUP "&Справка"
+    BEGIN
+        MENUITEM "&Вызов справки",              ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&О проекте ArmAlsn...",       ID_APP_ABOUT
+    END
+END
+
+IDR_SRVR_EMBEDDED MENU 
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "О&бновить\tCtrl+S",           ID_FILE_UPDATE
+        MENUITEM "Сохранить копию &как...",     ID_FILE_SAVE_COPY_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM "Пред&варительный просмотр",   ID_FILE_PRINT_PREVIEW
+        MENUITEM "Нас&тройка печати...",        ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "В&ыход",                      ID_APP_EXIT
+    END
+    POPUP "&Правка"
+    BEGIN
+        MENUITEM "&Отменить\tCtrl+Z",           ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM "&Специальная вставка...",     ID_EDIT_PASTE_SPECIAL
+        MENUITEM SEPARATOR
+        MENUITEM "Вставить &новый объект...",   ID_OLE_INSERT_NEW
+        MENUITEM "Св&язи...",                   ID_OLE_EDIT_LINKS
+        MENUITEM "<<КОМАНДЫ OLE>>",             ID_OLE_VERB_FIRST
+    END
+    POPUP "&Вид"
+    BEGIN
+        POPUP "&Панели инструментов и закрепляемые окна"
+        BEGIN
+            MENUITEM "<местозаполнитель>",          ID_VIEW_TOOLBAR
+        END
+        MENUITEM "&Строка состояния",           ID_VIEW_STATUS_BAR
+        POPUP "&Вид приложения"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio.NET 200&5",     ID_VIEW_APPLOOK_VS_2005
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "&Голубой стиль",              ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "Ч&ерный стиль",               ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "&Серебристый стиль",          ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "&Зеленовато-голубой стиль",   ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+        MENUITEM "&Разделить",                  ID_WINDOW_SPLIT
+    END
+    POPUP "&Справка"
+    BEGIN
+        MENUITEM "&Вызов справки",              ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&О проекте ArmAlsn...",       ID_APP_ABOUT
+    END
+END
+
+IDR_POPUP_EDIT MENU 
+BEGIN
+    POPUP "Редактировать"
+    BEGIN
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+    END
+END
+
+IDR_OUTPUT_POPUP MENU 
+BEGIN
+    POPUP "Контекстное меню"
+    BEGIN
+        MENUITEM "&Копировать",                 ID_EDIT_COPY
+        MENUITEM "&Очистить",                   ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Скрыть",                     ID_VIEW_OUTPUTWND
+    END
+END
+
+IDR_HELP_MENU MENU 
+BEGIN
+    MENUITEM "&Вызов справки",              ID_HELP_FINDER
+    MENUITEM SEPARATOR
+    MENUITEM "&О проекте ArmAlsn...",       ID_APP_ABOUT
+END
+
+IDR_THEME_MENU MENU 
+BEGIN
+    MENUITEM "Office 2007 (&голубой стиль)", ID_VIEW_APPLOOK_OFF_2007_BLUE
+    MENUITEM "Office 2007 (ч&ерный стиль)", ID_VIEW_APPLOOK_OFF_2007_BLACK
+    MENUITEM "Office 2007 (&серебристый стиль)", ID_VIEW_APPLOOK_OFF_2007_SILVER
+    MENUITEM "Office 2007 (&зеленовато-голубой стиль)", ID_VIEW_APPLOOK_OFF_2007_AQUA
+END
+
+IDR_OSCILLOSCOPEFRAME MENU 
+BEGIN
+    POPUP "&Файл"
+    BEGIN
+        MENUITEM "Новая ра&мка",                ID_FILE_NEW_FRAME
+        MENUITEM "Созд&ать\tCtrl+N",            ID_FILE_NEW
+        MENUITEM "&Открыть...\tCtrl+O",         ID_FILE_OPEN
+        MENUITEM "Со&хранить\tCtrl+S",          ID_FILE_SAVE
+        MENUITEM "Сохранить &как...",           ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Печать...\tCtrl+P",          ID_FILE_PRINT
+        MENUITEM "Пред&варительный просмотр",   ID_FILE_PRINT_PREVIEW
+        MENUITEM "Нас&тройка печати...",        ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Последний файл",              ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "В&ыход",                      ID_APP_EXIT
+    END
+    POPUP "&Правка"
+    BEGIN
+        MENUITEM "&Отменить\tCtrl+Z",           ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "&Вырезать\tCtrl+X",           ID_EDIT_CUT
+        MENUITEM "&Копировать\tCtrl+C",         ID_EDIT_COPY
+        MENUITEM "Вст&авить\tCtrl+V",           ID_EDIT_PASTE
+        MENUITEM "&Специальная вставка...",     ID_EDIT_PASTE_SPECIAL
+        MENUITEM SEPARATOR
+        MENUITEM "Вставить &новый объект...",   ID_OLE_INSERT_NEW
+        MENUITEM "Св&язи...",                   ID_OLE_EDIT_LINKS
+        MENUITEM "<<КОМАНДЫ OLE>>",             ID_OLE_VERB_FIRST
+    END
+    POPUP "Сервис"
+    BEGIN
+        MENUITEM "Конфигурация",                ID_CONFIG
+    END
+    POPUP "&Вид"
+    BEGIN
+        POPUP "&Панели инструментов и закрепляемые окна"
+        BEGIN
+            MENUITEM "<местозаполнитель>",          ID_VIEW_TOOLBAR
+        END
+        MENUITEM "&Строка состояния",           ID_VIEW_STATUS_BAR
+        POPUP "&Вид приложения"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio.NET 200&5",     ID_VIEW_APPLOOK_VS_2005
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "&Голубой стиль",              ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "Ч&ерный стиль",               ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "&Серебристый стиль",          ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "&Зеленовато-голубой стиль",   ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+        MENUITEM "&Разделить",                  ID_WINDOW_SPLIT
+        MENUITEM SEPARATOR
+        MENUITEM "Асимметрия",                  ID_MyBass
+        MENUITEM SEPARATOR
+        POPUP "Выбор языка"
+        BEGIN
+            MENUITEM "По умолчанию",                ID_LANGUAGE_FIRST
+        END
+    END
+    POPUP "&Справка"
+    BEGIN
+        MENUITEM "&Вызов справки",              ID_HELP_FINDER
+        MENUITEM SEPARATOR
+        MENUITEM "&О проекте ArmAlsn...",       ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT
+    VK_F1,          ID_HELP,                VIRTKEY 
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
+END
+
+IDR_CNTR_INPLACE ACCELERATORS 
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT
+    VK_F1,          ID_HELP,                VIRTKEY 
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
+END
+
+IDR_SRVR_INPLACE ACCELERATORS 
+BEGIN
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT
+    VK_F1,          ID_HELP,                VIRTKEY 
+    VK_ESCAPE,      ID_CANCEL_EDIT_SRVR,    VIRTKEY, NOINVERT
+END
+
+IDR_SRVR_EMBEDDED ACCELERATORS 
+BEGIN
+    "S",            ID_FILE_UPDATE,         VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+    VK_F1,          ID_CONTEXT_HELP,        VIRTKEY, SHIFT
+    VK_F1,          ID_HELP,                VIRTKEY 
+    VK_ESCAPE,      ID_CANCEL_EDIT_CNTR,    VIRTKEY, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "О проекте ArmAlsn"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "ArmAlsn, версия 0.51",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2010",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "ОК",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_DIALOG_CONFIG DIALOGEX 0, 0, 495, 273
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_OVERLAPPEDWINDOW
+CAPTION "Конфигурация"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Выйти без сохранения",IDCANCEL,184,253,96,14
+    CONTROL         "",IDC_TREE1,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,24,136,207
+    PUSHBUTTON      "Сохранить и выйти",IDC_SAVE_EXIT,79,252,86,14
+    CONTROL         "",IDC_TAB1,"SysTabControl32",TCS_BUTTONS | TCS_FIXEDWIDTH,147,24,310,207
+    PUSHBUTTON      "Сохранить",IDC_SAVECONFIG,14,252,50,14
+    PUSHBUTTON      "Отменить",IDC_NOSAVE,423,252,50,14
+END
+
+IDD_DIALOG_CONFIG_DIRECTX DIALOGEX 0, 0, 309, 182
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_SOUND_DEVICE_COMBO,119,17,165,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CAPTURE_DEVICE_COMBO,119,34,165,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Устройство воспроизведения",IDC_STATIC,14,17,102,8
+    LTEXT           "Устройство записи",IDC_STATIC,14,36,65,8
+    PUSHBUTTON      "Button1",IDCONSAVE,19,157,50,14,NOT WS_VISIBLE
+    CONTROL         "Осциллограф ДИСКО ",IDC_DISKO,"Button",BS_AUTOCHECKBOX | BS_CENTER | WS_TABSTOP,10,71,97,10,WS_EX_RIGHT
+END
+
+IDD_DIALOG_CONFIG_GPS DIALOGEX 0, 0, 271, 182
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_PORT,67,18,155,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "1-й COM порт",IDC_STATIC,8,18,55,8
+    PUSHBUTTON      "Настроить",IDC_BUTTON_1COM,223,18,50,14
+    PUSHBUTTON      "Button2",IDCONSAVE,17,159,50,14,NOT WS_VISIBLE
+    LTEXT           "2-й COM порт",IDC_STATIC,10,52,47,8
+    COMBOBOX        IDC_2_COMBO_PORT,66,47,156,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Настроить",IDC_2_BUTTON_1COM,221,47,50,14
+END
+
+IDD_VIEW_PUT DIALOGEX 0, 0, 366, 102
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_CLIPSIBLINGS | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_TOPMOST | WS_EX_CONTROLPARENT | WS_EX_APPWINDOW
+CAPTION "Путь и Ассимметрия"
+FONT 10, "MS Shell Dlg", 400, 0, 0xCC
+BEGIN
+    EDITTEXT        IDC_ASIMETR,64,20,33,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Выход",IDCANCEL,3,86,114,14
+    EDITTEXT        IDC_ASCHEN1,64,37,33,14,ES_AUTOHSCROLL
+    LTEXT           "Километраж",IDC_STATIC,3,6,42,8
+    EDITTEXT        IDC_ASCHEN2,64,54,33,14,ES_AUTOHSCROLL
+    LTEXT           "Канал 1",IDC_STATIC,3,37,28,8
+    LTEXT           "Канал 2",IDC_STATIC,3,57,28,8
+    LTEXT           "Ассимметрия",IDC_STATIC,3,20,48,8
+    EDITTEXT        IDC_1_PK_V,63,4,68,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_2_PK_V,140,4,203,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_2_ASIMETR,140,21,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_2_ASCHEN1,140,38,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_2_ASCHEN2,140,55,40,14,ES_AUTOHSCROLL
+    LTEXT           "Широта",IDC_STATIC,194,24,27,8
+    LTEXT           "Долгота",IDC_STATIC,194,42,29,8
+    EDITTEXT        IDC_LONGITUDE,238,40,84,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_LATITUDE,238,22,84,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_KORECT,239,64,40,14,ES_AUTOHSCROLL | ES_NOHIDESEL
+    LTEXT           "Предустановка",IDC_STATIC,182,63,53,8
+    PUSHBUTTON      "ok",IDC_PKOK,282,64,16,14
+    GROUPBOX        "Направление",IDC_STATIC,303,55,46,24,BS_CENTER,WS_EX_RIGHT
+    CONTROL         "+",IDC_SCHETP,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE | WS_GROUP,310,65,12,10
+    CONTROL         "-",IDC_SCHETM,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,327,65,12,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,5,1,1
+ PRODUCTVERSION 0,5,1,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904e3"
+        BEGIN
+            VALUE "CompanyName", "Дорожная лаборатория А. Т. и С. Южной ж.д."
+            VALUE "FileDescription", "TODO: <Описание файла>"
+            VALUE "FileVersion", "0.7.1.20100227"
+            VALUE "InternalName", "ArmAlsn.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Название организации>. Все права защищены."
+            VALUE "OriginalFilename", "ArmAlsn.exe"
+            VALUE "ProductName", "TODO: <Название продукта>"
+            VALUE "ProductVersion", "0.7.1.20100227"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1251
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDP_OLE_INIT_FAILED     "Не удалось выполнить инициализацию OLE. Убедитесь в том, что используются правильные версии библиотек OLE."
+    IDP_FAILED_TO_CREATE    "Не удается создать объект. Убедитесь в том, что он занесен в системный реестр."
+END
+
+STRINGTABLE 
+BEGIN
+    IDR_MAINFRAME           "ArmAlsn\n\nArmAlsn\nArmAlsn Files (*.alsn)\n.alsn\nArmAlsn.Document\nArmAlsn.Document"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "ArmAlsn"
+    AFX_IDS_IDLEMESSAGE     "Для получения справки нажмите клавишу F1"
+    AFX_IDS_HELPMODEMESSAGE "Выберите объект, для которого требуется справка"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_NEW             "Создание нового документа\nСоздать"
+    ID_FILE_OPEN            "Открытие существующего документа\nОткрыть"
+    ID_FILE_CLOSE           "Закрытие активного документа\nЗакрыть"
+    ID_FILE_SAVE            "Сохранение активного документа\nСохранить"
+    ID_FILE_SAVE_AS         "Сохранение активного документа под новым именем\nСохранить как"
+    ID_FILE_PAGE_SETUP      "Изменение параметров печати\nПараметры страницы"
+    ID_FILE_PRINT_SETUP     "Изменение принтера и параметров печати\nНастройка печати"
+    ID_FILE_PRINT           "Печать активного документа\nПечать"
+    ID_FILE_PRINT_DIRECT    "Печать активного документа с использованием текущих параметров\nБыстрая печать"
+    ID_FILE_PRINT_PREVIEW   "Просмотр документа в полностраничном режиме\nПредварительный просмотр"
+    ID_FILE_UPDATE          "Обновление контейнера для отображения всех изменений\nОбновить"
+    ID_FILE_SAVE_COPY_AS    "Сохранение копии активного документа под новым именем\nСохранить копию"
+    ID_FILE_NEW_FRAME       "Создание новой рамки\nНовая рамка"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_CLOSE               "Закрыть"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_APP_ABOUT            "Вывод сведений о программе, ее версии и авторских правах\nО программе"
+    ID_APP_EXIT             "Завершение работы приложения с запросом на сохранение документов\nВыход"
+    ID_HELP_INDEX           "Открытие справочной системы\nВызов справки"
+    ID_HELP_FINDER          "Вывод оглавления справочной системы\nВызов справки"
+    ID_HELP_USING           "Вывод инструкций по работе со справочной системой\nСправка"
+    ID_CONTEXT_HELP         "Отображение справочных сведений для выбранных кнопок, меню и окон\nСправка"
+    ID_HELP                 "Отображение справочных сведений для текущей задачи или команды\nСправка"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Открытие данного документа"
+    ID_FILE_MRU_FILE2       "Открытие данного документа"
+    ID_FILE_MRU_FILE3       "Открытие данного документа"
+    ID_FILE_MRU_FILE4       "Открытие данного документа"
+    ID_FILE_MRU_FILE5       "Открытие данного документа"
+    ID_FILE_MRU_FILE6       "Открытие данного документа"
+    ID_FILE_MRU_FILE7       "Открытие данного документа"
+    ID_FILE_MRU_FILE8       "Открытие данного документа"
+    ID_FILE_MRU_FILE9       "Открытие данного документа"
+    ID_FILE_MRU_FILE10      "Открытие данного документа"
+    ID_FILE_MRU_FILE11      "Открытие данного документа"
+    ID_FILE_MRU_FILE12      "Открытие данного документа"
+    ID_FILE_MRU_FILE13      "Открытие данного документа"
+    ID_FILE_MRU_FILE14      "Открытие данного документа"
+    ID_FILE_MRU_FILE15      "Открытие данного документа"
+    ID_FILE_MRU_FILE16      "Открытие данного документа"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_NEXT_PANE            "Переход к следующей области окна\nСледующая область"
+    ID_PREV_PANE            "Возврат к предыдущей области окна\nПредыдущая область"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Разделение активного окна на области\nРазделить"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Удаление выделенного фрагмента\nУдалить"
+    ID_EDIT_CLEAR_ALL       "Полное удаление содержимого документа\nУдалить все"
+    ID_EDIT_COPY            "Копирование выделенного фрагмента в буфер обмена\nКопировать"
+    ID_EDIT_CUT             "Удаление выделенного фрагмента в буфер обмена\nВырезать"
+    ID_EDIT_FIND            "Поиск указанного текста\nНайти"
+    ID_EDIT_PASTE           "Вставка содержимого буфера обмена\nВставить"
+    ID_EDIT_PASTE_LINK      "Вставка содержимого буфера обмена и создание связи с его источником\nВставить связь"
+    ID_EDIT_PASTE_SPECIAL   "Вставка содержимого буфера обмена с возможностью выбора формата\nСпециальная вставка"
+    ID_EDIT_REPEAT          "Повторение последнего действия\nПовторить"
+    ID_EDIT_REPLACE         "Замена заданного текста другим текстом\nЗаменить"
+    ID_EDIT_SELECT_ALL      "Выделение всего документа\nВыделить все"
+    ID_EDIT_UNDO            "Отмена последнего действия\nОтменить"
+    ID_EDIT_REDO            "Повторное выполнение последнего отмененного действия\nВернуть"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_VIEW_STATUS_BAR      "Показать или скрыть строку состояния\n Переключение строки состояния"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OLE_INSERT_NEW       "Вставка нового внедренного объекта\nНовый объект"
+    ID_OLE_EDIT_LINKS       "Изменение связанных объектов\nИзменить связи"
+    ID_OLE_EDIT_CONVERT     "Преобразование объекта к другому типу\nПреобразовать объект"
+END
+
+STRINGTABLE 
+BEGIN
+    ID_OLE_VERB_FIRST       "Активация внедренного или связанного объекта"
+    57873                   "Активация внедренного или связанного объекта"
+    57874                   "Активация внедренного или связанного объекта"
+    57875                   "Активация внедренного или связанного объекта"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Изменение размера окна"
+    AFX_IDS_SCMOVE          "Изменение положения окна"
+    AFX_IDS_SCMINIMIZE      "Свертывание окна в значок"
+    AFX_IDS_SCMAXIMIZE      "Развертывание окна до полного размера"
+    AFX_IDS_SCNEXTWINDOW    "Переход к следующему окну документа"
+    AFX_IDS_SCPREVWINDOW    "Переход к предыдущему окну документа"
+    AFX_IDS_SCCLOSE         "Закрытие активного окна с запросом на сохранение документов"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Восстановление исходных размеров окна"
+    AFX_IDS_SCTASKLIST      "Переход к списку задач"
+END
+
+STRINGTABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Выход из режима предварительного просмотра\nОтменить просмотр"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_STATUS_PANE1        "Панель 1"
+    IDS_STATUS_PANE2        "Панель 2"
+    IDS_TOOLBAR_STANDARD    "Стандартный"
+    IDS_TOOLBAR_CUSTOMIZE   "Настройка..."
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_OUTPUT_WND          "Выпуск"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_BUILD_TAB           "Сборка"
+    IDS_DEBUG_TAB           "Отладка"
+    IDS_FIND_TAB            "Найти"
+END
+
+STRINGTABLE 
+BEGIN
+    IDS_EDIT_MENU           "Редактировать"
+END
+
+#endif    // русский resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE 25, 1
+#pragma code_page(1251)
+#include "res\ArmAlsn.rc2"  // ресурсы, не редактируемые в Microsoft Visual C++
+#include "l.RUS\afxres.rc"          // Стандартные компоненты
+#include "l.RUS\afxprint.rc"        // ресурсы для печати/предварительного просмотра
+#include "l.RUS\afxolecl.rc"        // Ресурсы контейнера OLE
+#include "l.RUS\afxolesv.rc"        // Ресурсы сервера OLE
+#if !defined(_AFXDLL)
+#include "l.RUS\afxribbon.rc"               // лента MFC и ресурсы панели управления
+#endif
+#endif
+1 TYPELIB "ArmAlsn.tlb"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

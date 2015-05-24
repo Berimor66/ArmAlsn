@@ -1,0 +1,35 @@
+Используемые компоненты и библиотеки
+
+Naughter -
+	Defines the Interface for an MFC wrapper class for serial ports
+	Defines the interface for a class to enumerate the serial ports installed on a PC using a number of different approaches
+	Defines the interface for a class which supports auto closing of a handle via CloseHandle
+	Defines the interface for a class which supports auto closing of a heap pointer allocated via HeapAlloc
+	Defines the interface for a class which supports auto closing of a HMODULE via FreeLibrary and setting of the last Win32 error via SetLastError
+
+Copyright (c) 2013 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+{\rtf1{\field{\*\fldinst{ HYPERLINK " http://www.msn.com"}}{\fldresult{ MSN} }}}
+HYPERLINK "http://www.msn.com"MSN
+----------------------------------------------------------------
+
+BASS 2.4.10
+Copyright (c) 1999-2013 Un4seen Developments Ltd.
+----------------------------------------------------------------
+
+HyperLink static control. Will open the default browser with the given URL when the user clicks on the link.
+
+Copyright Chris Maunder, 1997-1999 (cmaunder@mail.com)
+Feel free to use and distribute. May not be sold for profit
+----------------------------------------------------------------
+
+Version Control Build System. This header file was created by VERBUILD v1.0.0            
+
+Copyright(c) 2005-2007 Yeamaec Communication.Co,.Ltd.      
+----------------------------------------------------------------
+
+Visual Leak Detector. Import Library Header
+
+Copyright (c) 2005-2011 VLD Team.  This library is free software
+----------------------------------------------------------------
+
+DiscoAPI  OziExplorerAPI

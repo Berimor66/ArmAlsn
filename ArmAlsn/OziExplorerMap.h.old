@@ -1,0 +1,109 @@
+#pragma once
+#ifndef _OziExplorerMap_h_
+#define _OziExplorerMap_h_
+
+typedef int (CALLBACK* ToziGetExePath)(char **, int *);
+// From the current GPS position return the name, description, distance and bearing to the waypoint being navigated to
+typedef int (CALLBACK* ToziGps2NavWp)(char **, char **, double *, double *);//char **
+typedef int (CALLBACK* ToziCloseProgram)(void);
+typedef int (CALLBACK* ToziFindOzi)(void);
+typedef int (CALLBACK* ToziClearWPs)(void); 
+typedef int (CALLBACK* ToziLoadWPfile)(char **);
+typedef int (CALLBACK* ToziLoadRTEfile)(char **);
+typedef int (CALLBACK* ToziStartMMserial)(void);
+typedef int (CALLBACK* ToziShowTrack )(int *);
+typedef int (CALLBACK* ToziCloseApi)(void); 
+// Функции получения данныx от ози
+typedef int (CALLBACK* ToziSendMMpositionON)(int*);
+typedef int (CALLBACK* ToziSendMMpositionOFF)(void);
+// Пройденный путь
+typedef int (CALLBACK* ToziOedometer1ON)(int*);// Включить
+typedef int (CALLBACK* ToziOedometer1OFF)(void);	// Выключить
+typedef int (CALLBACK* ToziOedometer1Reset)(void);	// Сбросить на 0
+typedef int (CALLBACK* ToziOedometer1Set)(double *);// Установить
+typedef int (CALLBACK* ToziOedometer1UP)(void);		// На увеличение
+typedef int (CALLBACK* ToziOedometer1DOWN)(void);	// На Уменьшение
+typedef int (CALLBACK* ToziOedometer2ON)(int*);// Включить
+typedef int (CALLBACK* ToziOedometer2OFF)(void);	// Выключить
+typedef int (CALLBACK* ToziOedometer2Reset)(void);	// Сбросить на 0
+typedef int (CALLBACK* ToziOedometer2Set)(double *);// Установить
+typedef int (CALLBACK* ToziOedometer2UP)(void);		// На увеличение
+typedef int (CALLBACK* ToziOedometer2DOWN)(void);	// На Уменьшение
+
+void  MMpositionCallback(double* Lat,double* Lon,double* speed,double* heading,double* magvar,double* altitude);
+void  Oedometer1(double* distance);
+void  Oedometer2(double* distance);
+
+class COziExplorerMap
+{
+private:
+	HINSTANCE oziApiDll;	
+	ToziGetExePath oziGetExePath;
+	ToziGps2NavWp oziGps2NavWp;
+	ToziCloseProgram oziCloseProgram;
+	ToziFindOzi oziFindOzi;
+	ToziClearWPs oziClearWPs;
+	ToziLoadWPfile oziLoadWPfile;
+	ToziLoadRTEfile oziLoadRTEfile;
+	ToziStartMMserial oziStartMMserial;
+	ToziShowTrack oziShowTrack;
+	ToziCloseApi oziCloseApi;
+	ToziSendMMpositionON oziSendMMpositionON;
+	ToziSendMMpositionOFF oziSendMMpositionOFF;
+	ToziOedometer1ON oziOedometer1ON;
+	ToziOedometer1OFF oziOedometer1OFF;	// Выключить
+	ToziOedometer1Reset oziOedometer1Reset;	// Сбросить на 0
+	ToziOedometer1Set oziOedometer1Set;// Установить
+	ToziOedometer1UP oziOedometer1UP;		// На увеличение
+	ToziOedometer1DOWN oziOedometer1DOWN;	// На Уменьшение
+	ToziOedometer2ON oziOedometer2ON;// Включить
+	ToziOedometer2OFF oziOedometer2OFF;	// Выключить
+	ToziOedometer2Reset oziOedometer2Reset;	// Сбросить на 0
+	ToziOedometer2Set oziOedometer2Set;// Установить
+	ToziOedometer2UP oziOedometer2UP;		// На увеличение
+	ToziOedometer2DOWN oziOedometer2DOWN;	// На Уменьшение
+
+public:
+	struct OziPosition
+	{
+		double Lat;			// Широта
+		double Lon;			// Долгота
+		double speed;		// Скорость км/ч	
+		double heading;		// Направление в градусах истинного
+		double magvar;		// magvar в градусах
+		double altitude;	// Высота над уровнем моря в метра
+		double distance1;	// Пройденый путь в метрах
+		double distance2;	//
+	} Position;
+public:
+	COziExplorerMap(void);
+	~COziExplorerMap(void);
+	int LoadOziApiDll(void);
+	CString GetOziExePath();
+	// Имя путевой тчки;
+	CString wname;
+	CString wdescription;
+	double wdistance;
+	CString GetNavWp();
+	int CheckOziExplorerRunning();
+	int CloseOziExplorer();
+	int ClearAllWaypoints();
+	int LoadWaypoint(CString wpfileW);
+	int LoadRouteFile(CString rfileW);
+	int StartMovingMapSerial();
+	int ShowATrack(int n);
+	int ClosingAPI();
+	// Функции получения данныx от ози
+	int SendMMpositionON(void); //DWORD_PTR& MMpositionCallback
+	int SendMMpositionOFF(void);
+	// Пройденный путь
+	int OedometerON(int n, double* set, int* Up);
+	int OedometerOFF(int n);
+	int OedometerReset(int n);
+	int OedometerSet(int n, double * meter);
+	//int Oedometer2ON(void);
+
+	
+};
+
+#endif /* _OziExplorerMap_h_ */

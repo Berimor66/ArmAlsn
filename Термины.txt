@@ -1,0 +1,20 @@
+Железнодорожная станция	Railway Station
+Узловая станция		Junction
+Порядковый номер.	Serial number
+Код.			Code
+Участок.			Land
+Маршрут.			Itinerary
+Перегон.			Coupe
+Рельсовая цепь.		Track circuit
+
+
+Microsoft Team Foundation Server
+svn  https://ats.svn.cloudforge.com/armalsn
+Visit the project at https://app.cloudforge.com/sf/projects/atsarmalsn
+
+http://valhome:8088/tfs/defaultcollection
+https://atsuzd.visualstudio.com/
+
+verisign.bmp 2
+PostInstall.hta
+0, 7, 1309, 1309
