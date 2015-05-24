@@ -9,6 +9,7 @@
 ///////////
 CSerialPort port1;  // для потоковых функций
 HANDLE hcomm01 = 0; // для потоковых функций
+OVERLAPPED overlapped1;
 CWinThread *pThread1;
 HANDLE hThread1 = NULL;
 
@@ -270,7 +271,7 @@ void СViewAsim::OnReadComPort1(void)
 				
 //AfxMessageBox(L"Читаем1");
 
-				port01.ReadEx(mStart.GetBuffer(), 20);  // (void*)(LPCTSTR)mStart1 - то же работает
+				port01.ReadEx(mStart.GetBuffer(), 20, &overlapped1, CompletionRoutine);  // (void*)(LPCTSTR)mStart1 - то же работает
 				// port.ClearReadBuffer();sRxBuf
 				//port01.
 				//port01.ClearReadBuffer(); // почему-то ошибка
@@ -347,6 +348,7 @@ UINT ThreadFunc (LPVOID pParam)
 	timeouts.ReadTotalTimeoutConstant=1000;
 	port1.SetTimeouts(timeouts);
   }
+#ifdef CSERIALPORT_MFC_EXTENSIONS
   catch (CSerialException* pEx)
   {
     TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
@@ -355,8 +357,23 @@ UINT ThreadFunc (LPVOID pParam)
 				strPort.Mid(4,6),
 				pEx->GetErrorMessage().operator LPCTSTR());
 	AfxMessageBox(soob);
-    pEx->Delete();
+     pEx->Delete();
   }
+#else
+  catch (CSerialException& e)
+  {
+	  if (e.m_dwError == ERROR_IO_PENDING)
+	  {
+		  DWORD dwBytesTransferred = 0;
+		  port1.GetOverlappedResult(overlapped1, dwBytesTransferred, TRUE);
+	  }
+	  else
+	  {
+		  CSerialPort::ThrowSerialException(e.m_dwError);
+	  }
+  }
+#endif
+
 
 	return FALSE;
 } // END ThreadFunc 1
@@ -402,43 +419,12 @@ UINT ThreadFuncRead (LPVOID pParam)
 
 	try
 	{
-// 		if (port.IsOpen())
-//		{
-			//char sRxBuf[38]; // 19 символов  Unicode ?
-			//_T("$AS1234,567км $AV123,4");
-			
-
-			//AfxMessageBox(_T("читаем"));
-			//dwRead = 
-		// Проверить &mStart
-				
-				//port.DataWaiting(10);
 				COMMTIMEOUTS timeouts;
 				timeouts.ReadTotalTimeoutMultiplier = 100000;
 				port1.SetTimeouts(timeouts);
 				port1.Set0ReadTimeout();
-				port1.ReadEx(&mStart,20);  // port.ClearReadBuffer();sRxBuf
-				//AfxMessageBox(mStart);
-			
-			//mStart = sRxBuf;
-		
-			///
-			//dwRead = 1;
-			//port.Write(sRxBuf,38);
-			//port.ClearWriteBuffer();
-			//if (!dwRead)
-			//{
+				port1.ReadEx(&mStart,20, &overlapped1, CompletionRoutine);  // port.ClearReadBuffer();sRxBuf
 				port1.ClearReadBuffer();
-				// Приходит строка вида "$ASkkkk,mmm$AVsss,s"
-				
-//				int		pos;
-				
-	//			mStart = sRxBuf;
-//				strPiket = sRxBuf;
-
-	
-
-				//return FALSE; 
 
 				int ns = mStart.Find(_T("$AS"),0)+3;
 				int nv = mStart.Find(_T("$AV"),0)+3;
@@ -446,50 +432,31 @@ UINT ThreadFuncRead (LPVOID pParam)
 				{
 //					strPiket = mStart.Mid(ns, ns+5) + _T("км ") + //+8	// если приняли лишнее
 //								mStart.Mid(nv, nv+2) + _T("км/ч");//+5
-
 				}
-
-				///
-				//mStart =  _T("$AS1234,567$AV123,4");
-				///
-
-				//strPiket.Format(_T("%s"),mStart);
-
-					//AfxMessageBox(mStart);
-//				if ((mStart.Find(_T("$AS"),0)) && (mStart.Find(_T("$AV"),0)))
-//				{
-//				int ns = mStart.Find(_T("$AS"),0)+3;
-//				int nv = mStart.Find(_T("$AV"),0)+3;
-//				strPiket = mStart.Mid(ns, ns+5) + _T("км ") + //+8	// если приняли лишнее
-//							mStart.Mid(nv, nv+2) + _T("км/ч");//+5
-//				}
-//				else strPiket = _T("Ошибка приема");
-
-				
-				//strPiket.Format(_T("%X%X%X %X "), 
-				//sRxBuf[1], sRxBuf[2], sRxBuf[3], sRxBuf[4] );
-				//m_strPiket.SetString(str);
-			//}
-			//strPiket = _T("Нет приема");
-//		}
-//		strPiket = _T("Порт не открыт");
 	}
+#ifdef CSERIALPORT_MFC_EXTENSIONS
 	catch (CSerialException* pEx)
 	{
 		TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
 		CString soob;
 		soob.Format(_T("Ошибка чтения первого СОМ порта:\n %s\n"),
 		pEx->GetErrorMessage().operator LPCTSTR());
-		//AfxMessageBox(soob);
-		///
-//st		CMainFrame* pFrame = (CMainFrame*) AfxGetApp()->m_pMainWnd;
-//st		CStatusBar* pStatus = &pFrame->m_wndStatusBar;
-//st		pStatus->SetPaneText(0, soob);
-		///
-//		strPiket = _T("ОШИБКА");
 		pEx->Delete();
 	}
-
+#else
+	catch (CSerialException& e)
+	{
+		if (e.m_dwError == ERROR_IO_PENDING)
+		{
+			DWORD dwBytesTransferred = 0;
+			port1.GetOverlappedResult(overlapped1, dwBytesTransferred, TRUE);
+		}
+		else
+		{
+			CSerialPort::ThrowSerialException(e.m_dwError);
+		}
+	}
+#endif
 /// Конец процедуры чтения 1-го порта
 	//////////////////////////////////////////////////////////////////////////////////////
 

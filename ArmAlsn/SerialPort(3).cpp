@@ -1,6 +1,6 @@
 /*
-Module : SerialPort.cpp v2.30
-Purpose: Implementation for an C++ wrapper class for serial ports
+Module : SerialPort.cpp  v1.28
+Purpose: Implementation for an MFC wrapper class for serial ports
 Created: PJN / 31-05-1999
 History: PJN / 03-06-1999 1. Fixed problem with code using CancelIo which does not exist on 95.
                           2. Fixed leaks which can occur in sample app when an exception is thrown
@@ -101,30 +101,8 @@ History: PJN / 03-06-1999 1. Fixed problem with code using CancelIo which does n
                           suggesting this addition.
          PJN / 25-01-2012 1. Updated copyright details.
                           2. Updated sample app and class to compile cleanly on VC 2010 and later.
-         PJN / 28-02-2015 1. Updated sample project settings to more modern default values.
-                          2. Updated copyright details.
-                          3. Reworked the CSerialPort and CSerialPortException classes to optionally compile without MFC. By default 
-                          the classes now use STL classes and idioms but if you define CSERIALPORT_MFC_EXTENSTIONS the classes will 
-                          revert back to the MFC behaviour.
-                          4. Remove logic to use GetProcAddress to access CancelIO functionality.
-                          5. Updated the code to clean compile on VC 2013
-                          6. Added SAL annotations to all the code
-                          7. Addition of a GetDefaultConfig method which takes a string
-                          8. Addition of a SetDefaultConfig method which takes a string
-         PJN / 26-04-2015 1. Removed unnecessary inclusion of WinError.h
-                          2. Removed the CSerialPort::DataWaiting method as it depends on the port being open in overlapped mode. Instead client code
-                          can simply call CSerialPort::WaitEvent directly themselves. Removing this method also means that the CSerialPort::m_hEvent
-                          handle has not also been removed.
-                          3. The CSerialPort::WriteEx method has been reworked to expose all the parameters of the underlying WriteFileEx API. This
-                          rework also fixes a memory leak in WriteEx which can sometimes occur. This reworks also means that the 
-                          CSerialPort::_OnCompletion and CSerialPort::_OnCompletion methods have been removed. Thanks to Yufeng Huang for reporting 
-                          this issue.
-                          4. The CSerialPort::ReadEx method has been reworked to expose all the parameters of the underlying ReadFileEx API. This
-                          rework also fixes a memory leak in ReadEx which can sometimes occur. This reworks also means that the 
-                          CSerialPort::_OnCompletion and CSerialPort::_OnCompletion methods have been removed. Thanks to Yufeng Huang for reporting 
-                          this issue.
 
-Copyright (c) 1996 - 2015 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
+Copyright (c) 1996 - 2013 by PJ Naughter (Web: www.naughter.com, Email: pjna@naughter.com)
 
 All rights reserved.
 
@@ -143,57 +121,53 @@ to maintain a single distribution point for the source code.
 
 #include "stdafx.h"
 #include "SerialPort.h"
-
-#ifndef __ATLBASE_H__
-#pragma message("To avoid this message, please put atlbase.h in your pre compiled header (normally stdafx.h)")
-#include <atlbase.h>
-#endif //#ifndef __ATLBASE_H__
+#ifndef _WINERROR_
+#pragma message("To avoid this message, please put WinError.h in your pre compiled header (normally stdafx.h)")
+#include <WinError.h>
+#endif
 
 
 ///////////////////////////////// Defines /////////////////////////////////////
 
-#ifdef CSERIALPORT_MFC_EXTENSIONS
 #ifdef _DEBUG
 #define new DEBUG_NEW
-#endif //#ifdef _DEBUG
-#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
+#endif
 
 
 //////////////////////////////// Implementation ///////////////////////////////
 
 #if _MSC_VER >= 1700
-BOOL CSerialException::GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError, _Out_opt_ PUINT pnHelpContext)
+BOOL CSerialException::GetErrorMessage(_Out_writes_z_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError,	_Out_opt_ PUINT pnHelpContext)
 #else	
 BOOL CSerialException::GetErrorMessage(__out_ecount_z(nMaxError) LPTSTR lpszError, __in UINT nMaxError, __out_opt PUINT pnHelpContext)
 #endif
 {
   //Validate our parameters
-  ATLASSERT(lpszError != NULL);
-    
-  if (pnHelpContext != NULL)
-    *pnHelpContext = 0;
-    
+	ASSERT(lpszError != NULL && AfxIsValidString(lpszError, nMaxError));
+		
+	if (pnHelpContext != NULL)
+		*pnHelpContext = 0;
+		
   //What will be the return value from this function (assume the worst)
   BOOL bSuccess = FALSE;
 
-  LPTSTR lpBuffer;
-  DWORD dwReturn = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                                 NULL,  m_dwError, MAKELANGID(LANG_NEUTRAL, SUBLANG_SYS_DEFAULT),
-                                 reinterpret_cast<LPTSTR>(&lpBuffer), 0, NULL);
+	LPTSTR lpBuffer;
+	DWORD dwReturn = FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			                           NULL,  m_dwError, MAKELANGID(LANG_NEUTRAL, SUBLANG_SYS_DEFAULT),
+			                           reinterpret_cast<LPTSTR>(&lpBuffer), 0, NULL);
 
-  if (dwReturn == 0)
-    *lpszError = _T('\0');
-  else
-  {
-    bSuccess = TRUE;
-    Checked::tcsncpy_s(lpszError, nMaxError, lpBuffer, _TRUNCATE);  
-    LocalFree(lpBuffer);
-  }
+	if (dwReturn == 0)
+		*lpszError = _T('\0');
+	else
+	{
+	  bSuccess = TRUE;
+	  Checked::tcsncpy_s(lpszError, nMaxError, lpBuffer, _TRUNCATE);  
+		LocalFree(lpBuffer);
+	}
 
-  return bSuccess;
+	return bSuccess;
 }
 
-#ifdef CSERIALPORT_MFC_EXTENSIONS
 CString CSerialException::GetErrorMessage()
 {
   CString rVal;
@@ -202,26 +176,31 @@ CString CSerialException::GetErrorMessage()
   rVal.ReleaseBuffer();
   return rVal;
 }
-#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 CSerialException::CSerialException(DWORD dwError) : m_dwError(dwError)
 {
 }
 
-#ifdef CSERIALPORT_MFC_EXTENSIONS
+IMPLEMENT_DYNAMIC(CSerialException, CException)
+
 #ifdef _DEBUG
-void CSerialException::Dump(_In_ CDumpContext& dc) const
+void CSerialException::Dump(CDumpContext& dc) const
 {
-  CObject::Dump(dc);
+	CObject::Dump(dc);
 
-  dc << _T("m_dwError = ") << m_dwError << _T("\n");
+	dc << _T("m_dwError = ") << m_dwError << _T("\n");
 }
-#endif //#ifdef _DEBUG
-#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
+#endif
 
 
-CSerialPort::CSerialPort() : m_hComm(INVALID_HANDLE_VALUE)
+CSerialPort::CSerialPort() : m_hComm(INVALID_HANDLE_VALUE),
+                             m_hEvent(NULL)
 {
+  m_hKernel32 = GetModuleHandle(_T("KERNEL32.DLL"));
+  if (m_hKernel32)
+    m_lpfnCancelIo = reinterpret_cast<LPCANCELIO>(GetProcAddress(m_hKernel32, "CancelIo"));
+  else
+    m_lpfnCancelIo = NULL;
 }
 
 CSerialPort::~CSerialPort()
@@ -229,31 +208,25 @@ CSerialPort::~CSerialPort()
   Close();
 }
 
-void CSerialPort::ThrowSerialException(_In_ DWORD dwError)
+void CSerialPort::ThrowSerialException(DWORD dwError)
 {
-  if (dwError == 0)
-    dwError = ::GetLastError();
+	if (dwError == 0)
+		dwError = ::GetLastError();
 
-  ATLTRACE(_T("Warning: throwing CSerialException for error %d\n"), dwError);
-#ifdef CSERIALPORT_MFC_EXTENSIONS
-  CSerialException* pException = new CSerialException (dwError);
-  THROW(pException);
- #else
-  CSerialException e(dwError);
-  throw e;
- #endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
+	CSerialException* pException = new CSerialException (dwError);
+
+	TRACE(_T("Warning: throwing CSerialException for error %d\n"), dwError);
+	THROW(pException);
 }
 
-#ifdef CSERIALPORT_MFC_EXTENSIONS
 #ifdef _DEBUG
 void CSerialPort::Dump(CDumpContext& dc) const
 {
-  dc << _T("m_hComm = ") << m_hComm << _T("\n");
+	dc << _T("m_hComm = ") << m_hComm << _T("\n");
 }
-#endif //#ifdef _DEBUG
-#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
+#endif
 
-void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity parity, _In_ BYTE DataBits, _In_ StopBits stopBits, _In_ FlowControl fc, _In_ BOOL bOverlapped)
+void CSerialPort::Open(LPCTSTR pszPort, DWORD dwBaud, Parity parity, BYTE DataBits, StopBits stopBits, FlowControl fc, BOOL bOverlapped)
 {
   Close(); //In case we are already open
 
@@ -262,10 +235,20 @@ void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity pa
   if (m_hComm == INVALID_HANDLE_VALUE)
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Open, Failed to open the comms port, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Open, Failed to open the comms port, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 
+  //Create the event we need for later synchronisation use
+  m_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+  if (m_hEvent == NULL)
+  {
+    DWORD dwLastError = GetLastError();
+    Close();
+    TRACE(_T("CSerialPort::Open, Failed in call to CreateEvent in Open, Error:%d\n"), dwLastError);
+    ThrowSerialException(dwLastError);
+  }
+  
   //Get the current state prior to changing it
   DCB dcb;
   dcb.DCBlength = sizeof(DCB);
@@ -304,7 +287,7 @@ void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity pa
     }
     default:          
     {
-      ATLASSERT(FALSE);            
+      ASSERT(FALSE);            
       break;
     }
   }
@@ -332,7 +315,7 @@ void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity pa
     }
     default:                   
     {
-      ATLASSERT(FALSE);
+      ASSERT(FALSE);
       break;
     }
   }
@@ -399,7 +382,7 @@ void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity pa
     }
     default:
     {
-      ATLASSERT(FALSE);
+      ASSERT(FALSE);
       break;
     }
   }
@@ -408,14 +391,14 @@ void CSerialPort::Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud, _In_ Parity pa
   SetState(dcb);
 }
 
-void CSerialPort::Open(_In_ int nPort, _In_ DWORD dwBaud, _In_ Parity parity, _In_ BYTE DataBits, _In_ StopBits stopBits, _In_ FlowControl fc, _In_ BOOL bOverlapped)
+void CSerialPort::Open(int nPort, DWORD dwBaud, Parity parity, BYTE DataBits, StopBits stopBits, FlowControl fc, BOOL bOverlapped)
 {
   //Form the string version of the port number
-  TCHAR szPort[12];
-  _stprintf_s(szPort, sizeof(szPort)/sizeof(TCHAR), _T("\\\\.\\COM%d"), nPort);
+  CString sPort;
+  sPort.Format(_T("\\\\.\\COM%d"), nPort);
 
-  //Delegate the work to the other version of Open
-  Open(szPort, dwBaud, parity, DataBits, stopBits, fc, bOverlapped);
+  //Then delegate the work to the other version of Open
+  Open(sPort, dwBaud, parity, DataBits, stopBits, fc, bOverlapped);
 }
 
 void CSerialPort::Close()
@@ -423,137 +406,182 @@ void CSerialPort::Close()
   if (IsOpen())
   {
     //Close down the comms port
-    CloseHandle(m_hComm);
+    BOOL bSuccess = CloseHandle(m_hComm);
     m_hComm = INVALID_HANDLE_VALUE;
+    if (!bSuccess)
+      TRACE(_T("CSerialPort::Close, Failed to close up the comms port, Error:%d\n"), GetLastError());
+
+    //Free the event object we are using
+    if (m_hEvent)
+    {
+      CloseHandle(m_hEvent);
+      m_hEvent = NULL;
+    }
   }
 }
 
-void CSerialPort::Attach(_In_ HANDLE hComm)
+void CSerialPort::Attach(HANDLE hComm)
 {
   Close();
 
   //Validate our parameters, now that the port has been closed
-  ATLASSERT(m_hComm == INVALID_HANDLE_VALUE);
+  ASSERT(m_hComm == INVALID_HANDLE_VALUE);
+  ASSERT(m_hEvent == NULL);
 
   m_hComm = hComm;  
+
+  //Create the event we need for later synchronisation use
+  m_hEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+  if (m_hEvent == NULL)
+  {
+    DWORD dwLastError = GetLastError();
+    Close();
+    TRACE(_T("CSerialPort::Attach, Failed in call to CreateEvent in Attach, Error:%d\n"), dwLastError);
+    ThrowSerialException(dwLastError);
+  }
 }
 
 HANDLE CSerialPort::Detach()
 {
   //What will be the return value from this function
-  HANDLE hComm = m_hComm;
+  HANDLE hrVal = m_hComm;
 
   m_hComm = INVALID_HANDLE_VALUE;
 
-  return hComm;
+  if (m_hEvent)
+  {
+    CloseHandle(m_hEvent);
+    m_hEvent = NULL;
+  }
+
+  return hrVal;
 }
 
-DWORD CSerialPort::Read(_Out_writes_bytes_(dwNumberOfBytesToRead) __out_data_source(FILE) void* lpBuffer, _In_ DWORD dwNumberOfBytesToRead)
+DWORD CSerialPort::Read(void* lpBuf, DWORD dwCount)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   DWORD dwBytesRead = 0;
-  if (!ReadFile(m_hComm, lpBuffer, dwNumberOfBytesToRead, &dwBytesRead, NULL))
+  if (!ReadFile(m_hComm, lpBuf, dwCount, &dwBytesRead, NULL))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Read, Failed in call to ReadFile, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Read, Failed in call to ReadFile, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 
   return dwBytesRead;
 }
 
-void CSerialPort::Read(_Out_writes_bytes_to_opt_(dwNumberOfBytesToRead, *lpNumberOfBytesRead) __out_data_source(FILE) void* lpBuffer, _In_ DWORD dwNumberOfBytesToRead, _In_ OVERLAPPED& overlapped, _Inout_opt_ DWORD* lpNumberOfBytesRead)
+void CSerialPort::Read(void* lpBuf, DWORD dwCount, OVERLAPPED& overlapped, DWORD* pBytesRead)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
-  if (!ReadFile(m_hComm, lpBuffer, dwNumberOfBytesToRead, lpNumberOfBytesRead, &overlapped))
+  DWORD dwBytesRead = 0;
+  BOOL bSuccess = ReadFile(m_hComm, lpBuf, dwCount, &dwBytesRead, &overlapped);
+  if (!bSuccess)
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Read, Failed in call to ReadFile, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Read, Failed in call to ReadFile, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
+  }
+  else
+  {
+    if (pBytesRead)
+      *pBytesRead = dwBytesRead;
   }
 }
 
-void CSerialPort::ReadEx(_Out_writes_bytes_opt_(dwNumberOfBytesToRead) __out_data_source(FILE) LPVOID lpBuffer, _In_ DWORD dwNumberOfBytesToRead, _Inout_ LPOVERLAPPED lpOverlapped, _In_ LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine)
+DWORD CSerialPort::Write(const void* lpBuf, DWORD dwCount)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
-
-  if (!ReadFileEx(m_hComm, lpBuffer, dwNumberOfBytesToRead, lpOverlapped, lpCompletionRoutine))
-  {
-    DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::ReadEx, Failed in call to ReadFileEx, Error:%u\n"), dwLastError);
-    ThrowSerialException(dwLastError);
-  }
-}
-
-DWORD CSerialPort::Write(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) const void* lpBuffer, _In_ DWORD dwNumberOfBytesToWrite)
-{
-  //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   DWORD dwBytesWritten = 0;
-  if (!WriteFile(m_hComm, lpBuffer, dwNumberOfBytesToWrite, &dwBytesWritten, NULL))
+  if (!WriteFile(m_hComm, lpBuf, dwCount, &dwBytesWritten, NULL))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Write, Failed in call to WriteFile, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Write, Failed in call to WriteFile, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 
   return dwBytesWritten;
 }
 
-void CSerialPort::Write(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) const void* lpBuffer, _In_ DWORD dwNumberOfBytesToWrite, _In_ OVERLAPPED& overlapped, _Out_opt_ DWORD* lpNumberOfBytesWritten)
+void CSerialPort::Write(const void* lpBuf, DWORD dwCount, OVERLAPPED& overlapped, DWORD* pBytesWritten)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
-  if (!WriteFile(m_hComm, lpBuffer, dwNumberOfBytesToWrite, lpNumberOfBytesWritten, &overlapped))
+  DWORD dwBytesWritten = 0;
+  BOOL bSuccess = WriteFile(m_hComm, lpBuf, dwCount, &dwBytesWritten, &overlapped);
+  if (!bSuccess)
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Write, Failed in call to WriteFile, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Write, Failed in call to WriteFile, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
+  }
+  else
+  {
+    if (pBytesWritten)
+      *pBytesWritten = dwBytesWritten;
   }
 }
 
-void CSerialPort::WriteEx(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) LPCVOID lpBuffer, _In_ DWORD dwNumberOfBytesToWrite, _Inout_ LPOVERLAPPED lpOverlapped, _In_ LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine)
+void CSerialPort::GetOverlappedResult(OVERLAPPED& overlapped, DWORD& dwBytesTransferred, BOOL bWait)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
-
-  if (!WriteFileEx(m_hComm, lpBuffer, dwNumberOfBytesToWrite, lpOverlapped, lpCompletionRoutine))
-  {
-    DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::WriteEx, Failed in call to WriteFileEx, Error:%u\n"), dwLastError);
-    ThrowSerialException(dwLastError);
-  }
-}
-
-void CSerialPort::GetOverlappedResult(_In_ OVERLAPPED& overlapped, _Out_ DWORD& dwBytesTransferred, _In_ BOOL bWait)
-{
-  //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!::GetOverlappedResult(m_hComm, &overlapped, &dwBytesTransferred, bWait))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetOverlappedResult, Failed in call to GetOverlappedResult, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetOverlappedResult, Failed in call to GetOverlappedResult, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
+}
+
+void CSerialPort::_OnCompletion(DWORD dwErrorCode, DWORD dwCount, LPOVERLAPPED lpOverlapped)
+{
+	UNREFERENCED_PARAMETER(dwErrorCode);
+	UNREFERENCED_PARAMETER(dwCount);
+  //Validate our parameters
+  AFXASSUME(lpOverlapped);
+
+  //Convert back to the C++ world
+  CSerialPort* pSerialPort = static_cast<CSerialPort*>(lpOverlapped->hEvent);
+//Vall66   AFXASSUME(pSerialPort);
+  UNREFERENCED_PARAMETER(pSerialPort); //Vall66 
+
+  //Call the C++ function
+//Vall66  pSerialPort->OnCompletion(dwErrorCode, dwCount, lpOverlapped);
+}
+
+void CSerialPort::OnCompletion(DWORD /*dwErrorCode*/, DWORD /*dwCount*/, LPOVERLAPPED lpOverlapped)
+{
+  //Just free the memory which was previously allocated for the OVERLAPPED structure
+  delete lpOverlapped;
+
+  //Your derived classes can do something useful in OnCompletion, but don't forget to
+  //call CSerialPort::OnCompletion to ensure the memory is freed
 }
 
 void CSerialPort::CancelIo()
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
-  if (!::CancelIo(m_hComm))
+  if (m_lpfnCancelIo == NULL)
+  {
+    TRACE(_T("CSerialPort::CancelIo, CancelIo function is not supported on this OS. You need to be running at least NT 4 or Win 98 to use this function\n"));
+    ThrowSerialException(ERROR_CALL_NOT_IMPLEMENTED);  
+  }
+
+  if (!m_lpfnCancelIo(m_hComm))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("Failed in call to CancelIO, Error:%u\n"), dwLastError);
+    TRACE(_T("Failed in call to CancelIO, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -561,7 +589,7 @@ void CSerialPort::CancelIo()
 DWORD CSerialPort::BytesWaiting()
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   //Check to see how many characters are unread
   COMSTAT stat;
@@ -569,43 +597,113 @@ DWORD CSerialPort::BytesWaiting()
   return stat.cbInQue;
 }
 
-void CSerialPort::TransmitChar(_In_ char cChar)
+BOOL CSerialPort::DataWaiting(DWORD dwTimeout)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
-  if (!TransmitCommChar(m_hComm, cChar))
+  //Setup to wait for incoming data
+  DWORD dwOldMask;
+  GetMask(dwOldMask);
+  SetMask(EV_RXCHAR);
+
+  //Setup the overlapped structure
+  OVERLAPPED o;
+  o.hEvent = m_hEvent;
+
+  //Assume the worst;
+  BOOL bSuccess = FALSE;
+
+  DWORD dwEvent;
+  bSuccess = WaitEvent(dwEvent, o);
+  if (!bSuccess)
+  {
+    if (WaitForSingleObject(o.hEvent, dwTimeout) == WAIT_OBJECT_0)
+    {
+      DWORD dwBytesTransferred;
+      GetOverlappedResult(o, dwBytesTransferred, FALSE);
+      bSuccess = TRUE;
+    }
+  }
+
+  //Reset the event mask
+  SetMask(dwOldMask);
+
+  return bSuccess;
+}
+
+void CSerialPort::WriteEx(const void* lpBuf, DWORD dwCount)
+{
+  //Validate our parameters
+  ASSERT(IsOpen());
+
+  OVERLAPPED* pOverlapped = new OVERLAPPED;
+  memset(pOverlapped, 0, sizeof(OVERLAPPED));
+  pOverlapped->hEvent = static_cast<HANDLE>(this);
+  if (!WriteFileEx(m_hComm, lpBuf, dwCount, pOverlapped, _OnCompletion))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::TransmitChar, Failed in call to TransmitCommChar, Error:%u\n"), dwLastError);
+    delete pOverlapped;
+    TRACE(_T("CSerialPort::WriteEx, Failed in call to WriteFileEx, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetConfig(_In_ COMMCONFIG& config)
+void CSerialPort::ReadEx(void* lpBuf, DWORD dwCount)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
+
+  OVERLAPPED* pOverlapped = new OVERLAPPED;
+  memset(pOverlapped, 0, sizeof(OVERLAPPED));
+  pOverlapped->hEvent = static_cast<HANDLE>(this);
+  if (!ReadFileEx(m_hComm, lpBuf, dwCount, pOverlapped, _OnCompletion))
+  {
+    DWORD dwLastError = GetLastError();
+    delete pOverlapped;
+    TRACE(_T("CSerialPort::ReadEx, Failed in call to ReadFileEx, Error:%d\n"), dwLastError);
+    ThrowSerialException(dwLastError);
+  }
+  delete pOverlapped;//Vall Add 
+}
+
+void CSerialPort::TransmitChar(char cChar)
+{
+  //Validate our parameters
+  ASSERT(IsOpen());
+
+  if (!TransmitCommChar(m_hComm, cChar))
+  {
+    DWORD dwLastError = GetLastError();
+    TRACE(_T("CSerialPort::TransmitChar, Failed in call to TransmitCommChar, Error:%d\n"), dwLastError);
+    ThrowSerialException(dwLastError);
+  }
+}
+
+void CSerialPort::GetConfig(COMMCONFIG& config)
+{
+  //Validate our parameters
+  ASSERT(IsOpen());
 
   DWORD dwSize = sizeof(COMMCONFIG);
   if (!GetCommConfig(m_hComm, &config, &dwSize))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetConfig, Failed in call to GetCommConfig, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetConfig, Failed in call to GetCommConfig, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::SetConfig(_In_ COMMCONFIG& config)
+void CSerialPort::SetConfig(COMMCONFIG& config)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   DWORD dwSize = sizeof(COMMCONFIG);
   if (!SetCommConfig(m_hComm, &config, dwSize))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetConfig, Failed in call to SetCommConfig, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetConfig, Failed in call to SetCommConfig, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -613,12 +711,12 @@ void CSerialPort::SetConfig(_In_ COMMCONFIG& config)
 void CSerialPort::SetBreak()
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!SetCommBreak(m_hComm))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetBreak, Failed in call to SetCommBreak, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetBreak, Failed in call to SetCommBreak, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -626,118 +724,108 @@ void CSerialPort::SetBreak()
 void CSerialPort::ClearBreak()
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!ClearCommBreak(m_hComm))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::ClearBreak, Failed in call to SetCommBreak, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::ClearBreak, Failed in call to SetCommBreak, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::ClearError(_Out_ DWORD& dwErrors)
+void CSerialPort::ClearError(DWORD& dwErrors)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!ClearCommError(m_hComm, &dwErrors, NULL))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::ClearError, Failed in call to ClearCommError, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::ClearError, Failed in call to ClearCommError, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetDefaultConfig(_In_ int nPort, _Out_ COMMCONFIG& config)
+void CSerialPort::GetDefaultConfig(int nPort, COMMCONFIG& config)
 {
   //Create the device name as a string
-  TCHAR szPort[12];
-  _stprintf_s(szPort, sizeof(szPort)/sizeof(TCHAR), _T("COM%d"), nPort);
+  CString sPort;
+  sPort.Format(_T("COM%d"), nPort);
 
-  return GetDefaultConfig(szPort, config);
-}
-
-void CSerialPort::GetDefaultConfig(_In_z_ LPCTSTR pszPort, _Out_ COMMCONFIG& config)
-{
   DWORD dwSize = sizeof(COMMCONFIG);
-  if (!GetDefaultCommConfig(pszPort, &config, &dwSize))
+  if (!GetDefaultCommConfig(sPort, &config, &dwSize))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetDefaultConfig, Failed in call to GetDefaultCommConfig, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetDefaultConfig, Failed in call to GetDefaultCommConfig, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::SetDefaultConfig(_In_ int nPort, _In_ COMMCONFIG& config)
+void CSerialPort::SetDefaultConfig(int nPort, COMMCONFIG& config)
 {
   //Create the device name as a string
-  TCHAR szPort[12];
-  _stprintf_s(szPort, sizeof(szPort)/sizeof(TCHAR), _T("COM%d"), nPort);
+  CString sPort;
+  sPort.Format(_T("COM%d"), nPort);
 
-  return SetDefaultConfig(szPort, config);
-}
-
-void CSerialPort::SetDefaultConfig(_In_z_ LPCTSTR pszPort, _In_ COMMCONFIG& config)
-{
   DWORD dwSize = sizeof(COMMCONFIG);
-  if (!SetDefaultCommConfig(pszPort, &config, dwSize))
+  if (!SetDefaultCommConfig(sPort, &config, dwSize))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetDefaultConfig, Failed in call to SetDefaultCommConfig, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetDefaultConfig, Failed in call to SetDefaultCommConfig, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetStatus(_Out_ COMSTAT& stat)
+void CSerialPort::GetStatus(COMSTAT& stat)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   DWORD dwErrors;
   if (!ClearCommError(m_hComm, &dwErrors, &stat))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetStatus, Failed in call to ClearCommError, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetStatus, Failed in call to ClearCommError, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetState(_Out_ DCB& dcb)
+void CSerialPort::GetState(DCB& dcb)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!GetCommState(m_hComm, &dcb))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetState, Failed in call to GetCommState, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetState, Failed in call to GetCommState, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::SetState(_In_ DCB& dcb)
+void CSerialPort::SetState(DCB& dcb)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!SetCommState(m_hComm, &dcb))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetState, Failed in call to SetCommState, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetState, Failed in call to SetCommState, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::Escape(_In_ DWORD dwFunc)
+void CSerialPort::Escape(DWORD dwFunc)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!EscapeCommFunction(m_hComm, dwFunc))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Escape, Failed in call to EscapeCommFunction, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Escape, Failed in call to EscapeCommFunction, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -772,54 +860,54 @@ void CSerialPort::SetXON()
   Escape(SETXON);
 }
 
-void CSerialPort::GetProperties(_Inout_ COMMPROP& properties)
+void CSerialPort::GetProperties(COMMPROP& properties)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!GetCommProperties(m_hComm, &properties))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetProperties, Failed in call to GetCommProperties, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetProperties, Failed in call to GetCommProperties, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetModemStatus(_Out_ DWORD& dwModemStatus)
+void CSerialPort::GetModemStatus(DWORD& dwModemStatus)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!GetCommModemStatus(m_hComm, &dwModemStatus))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetModemStatus, Failed in call to GetCommModemStatus, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetModemStatus, Failed in call to GetCommModemStatus, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::SetMask(_In_ DWORD dwMask)
+void CSerialPort::SetMask(DWORD dwMask)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!SetCommMask(m_hComm, dwMask))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetMask, Failed in call to SetCommMask, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetMask, Failed in call to SetCommMask, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetMask(_Out_ DWORD& dwMask)
+void CSerialPort::GetMask(DWORD& dwMask)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!GetCommMask(m_hComm, &dwMask))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetMask, Failed in call to GetCommMask, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetMask, Failed in call to GetCommMask, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -827,25 +915,25 @@ void CSerialPort::GetMask(_Out_ DWORD& dwMask)
 void CSerialPort::Flush()
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!FlushFileBuffers(m_hComm))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Flush, Failed in call to FlushFileBuffers, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Flush, Failed in call to FlushFileBuffers, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::Purge(_In_ DWORD dwFlags)
+void CSerialPort::Purge(DWORD dwFlags)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!PurgeComm(m_hComm, dwFlags))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Purge, Failed in call to PurgeComm, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Purge, Failed in call to PurgeComm, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -870,41 +958,41 @@ void CSerialPort::ClearReadBuffer()
   Purge(PURGE_RXCLEAR);
 }
 
-void CSerialPort::Setup(_In_ DWORD dwInQueue, _In_ DWORD dwOutQueue)
+void CSerialPort::Setup(DWORD dwInQueue, DWORD dwOutQueue)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!SetupComm(m_hComm, dwInQueue, dwOutQueue))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::Setup, Failed in call to SetupComm, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::Setup, Failed in call to SetupComm, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::SetTimeouts(_In_ COMMTIMEOUTS& timeouts)
+void CSerialPort::SetTimeouts(COMMTIMEOUTS& timeouts)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!SetCommTimeouts(m_hComm, &timeouts))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::SetTimeouts, Failed in call to SetCommTimeouts, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::SetTimeouts, Failed in call to SetCommTimeouts, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-void CSerialPort::GetTimeouts(_Out_ COMMTIMEOUTS& timeouts)
+void CSerialPort::GetTimeouts(COMMTIMEOUTS& timeouts)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!GetCommTimeouts(m_hComm, &timeouts))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::GetTimeouts, Failed in call to GetCommTimeouts, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::GetTimeouts, Failed in call to GetCommTimeouts, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
@@ -936,30 +1024,30 @@ void CSerialPort::Set0ReadTimeout()
   SetTimeouts(Timeouts);
 }
 
-void CSerialPort::WaitEvent(_Inout_ DWORD& dwMask)
+void CSerialPort::WaitEvent(DWORD& dwMask)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
+  ASSERT(IsOpen());
 
   if (!WaitCommEvent(m_hComm, &dwMask, NULL))
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::WaitEvent, Failed in call to WaitCommEvent, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::WaitEvent, Failed in call to WaitCommEvent, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 }
 
-BOOL CSerialPort::WaitEvent(_Inout_ DWORD& dwMask, _Inout_ OVERLAPPED& overlapped)
+BOOL CSerialPort::WaitEvent(DWORD& dwMask, OVERLAPPED& overlapped)
 {
   //Validate our parameters
-  ATLASSERT(IsOpen());
-  ATLASSERT(overlapped.hEvent != NULL);
+  ASSERT(IsOpen());
+  ASSERT(overlapped.hEvent);
 
   BOOL bSuccess = WaitCommEvent(m_hComm, &dwMask, &overlapped);
   if (!bSuccess)
   {
     DWORD dwLastError = GetLastError();
-    ATLTRACE(_T("CSerialPort::WaitEvent, Failed in call to WaitCommEvent, Error:%u\n"), dwLastError);
+    TRACE(_T("CSerialPort::WaitEvent, Failed in call to WaitCommEvent, Error:%d\n"), dwLastError);
     ThrowSerialException(dwLastError);
   }
 

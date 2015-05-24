@@ -17,6 +17,8 @@
 	UINT ThreadFuncRead (LPVOID pParam);
 	UINT ThreadFuncRead2 (LPVOID pParam);
 
+	VOID WINAPI CompletionRoutine(_In_ DWORD dwErrorCode, _In_ DWORD dwNumberOfBytesTransfered, _Inout_ LPOVERLAPPED lpOverlapped);
+
 // диалоговое окно ViewPut
 
 class CViewPut : public CDialog
@@ -91,8 +93,8 @@ public:
 	// Преобразует название порта в его номер
 	int ComPortStrtoInt(CString strComPort);
 
-	void OnReadComPort2(void);
-	void OnReadComPort2Thread(void);
+	void OnReadComport02(void);
+	void OnReadComport02Thread(void);
 	double TimeStrtoCount(CString strTime);
 	double vTime1;
 	double vTime2;
@@ -126,7 +128,7 @@ public:
 protected:
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 	BOOL StartBass(void);
-	void StartComPort(void);
+	INT_PTR StartComPort(void);
 	BOOL StartOscilloscopeDisko(void);
 	BOOL StartTime(void);
 

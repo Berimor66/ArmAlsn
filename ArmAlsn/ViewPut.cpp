@@ -22,12 +22,14 @@
 //////////////////// pelix #define SPECWIDTH 3680	// display width ширина
 ////////
 
-CSerialPort port2; // для потоковых функций
+CSerialPort port02; // для потоковых функций
 HANDLE hcomm02 = 0; // для потоковых функций
+OVERLAPPED overlapped2;
 
 CWinThread *pThread2;
 
 HANDLE hThread2 = NULL;
+
 CString strPiket;
 CString str_2_Piket;
 
@@ -159,11 +161,10 @@ BOOL CViewPut::OnInitDialog()
 	m_2_strPiket.SetString(L"СОМ не открыт");
 	m_corect_pk.SetFocus();
 
-	StartComPort();
 	if (!StartOscilloscopeDisko()) return false;
 
 	UpdateData(false); //метод для передачи в контролы окна
-	if (!StartTime())  return false;
+	
 /////////////////////////////////////////////////////////////////////////////
 	///
 	// Instantiate and initialize the background brush to black.
@@ -215,8 +216,17 @@ BOOL CViewPut::OnInitDialog()
 	{
 		OnBnClickedSchetm();
 	}
-////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////
+	BOOL sc = StartComPort();
+	if (sc)
+	{
+			CString sss;
+			sss.Format(L"Порт %s не найден или не доступен. \r\n \r\n            \t   Проверте настройки",m_configdat.m_2_strComPort1);
+			AfxMessageBox(sss);
+			return false;
+	}
+	if (!StartTime())  return false;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -344,7 +354,7 @@ BOOL CViewPut::OnWndMsg(UINT message, WPARAM wParam, LPARAM lParam, LRESULT* pRe
 ///////////////////////////////////////////////////////////////////////////////
 			if (port02.IsOpen())		  // Читаем 2-й Com порт
 			{
-				OnReadComPort2();
+				OnReadComport02();
 				OnGpsRmc();
 				//UpdateData(false);
 			}
@@ -381,10 +391,10 @@ void CViewPut::OnCancel()
 		port02.Close();                      // try не определяеться
 		//AfxMessageBox(_T("Порт2 Закрыт"));
 	}
-	if (port2.IsOpen()) // try не определяеться
+	if (port02.IsOpen()) // try не определяеться
 	{
-		port2.CancelIo();
-		port2.Close();                      // try не определяеться
+		port02.CancelIo();
+		port02.Close();                      // try не определяеться
 		//AfxMessageBox(_T("Порт2 Закрыт"));
 	}
 	
@@ -890,15 +900,15 @@ int CViewPut::ComPortStrtoInt(CString strComPort)
 
 
 
-void CViewPut::OnReadComPort2(void)
+void CViewPut::OnReadComport02(void)
 {
 #ifdef _DEBUG
-	CViewPut::SetWindowTextW(L"Start OnReadComPort2");
+	CViewPut::SetWindowTextW(L"Start OnReadComport02");
 #endif
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	//// Процедура чтения 2-го порта
 	// кодировка из GPS ОЕМ
-	//if (port2.IsOpen()) AfxMessageBox(L"ERROR222");		
+	//if (port02.IsOpen()) AfxMessageBox(L"ERROR222");		
 	RMC = L"Ошибка чтения порта";
 	CString mStart;
 	mStart	= _T("$GPRMC,161229.487,A,3723.2475,N,12158.3416,W,0.13,309.62,120598,,*10");
@@ -907,14 +917,44 @@ void CViewPut::OnReadComPort2(void)
 				
 	char buf[804];  //404
 	memset(buf,0,804);
+	try
+	{
+		port02.Set0ReadTimeout();  // без этого виснет
+		DWORD dwRead = port02.Read(buf, 792);  // port02.ReadEx(buf,792, & overlapped2, CompletionRoutine);
+		port02.ClearReadBuffer();
 
-	//COMMTIMEOUTS timeouts;
-	//timeouts.ReadTotalTimeoutMultiplier = 100000;
-	//port2.SetTimeouts(timeouts);
-	//port2.Set0ReadTimeout();
-	port02.Set0ReadTimeout();  
-	port02.ReadEx(buf,792);  // port02.ClearReadBuffer();sRxBuf 396
-	port02.ClearReadBuffer();
+	}
+#ifdef CSERIALPORT_MFC_EXTENSIONS
+	catch (CSerialException* pEx)
+	{
+		if (pEx->m_dwError == ERROR_IO_PENDING)
+		{
+			DWORD dwBytesTransferred = 0;
+			port2.GetOverlappedResult(overlapped, dwBytesTransferred, TRUE);
+			pEx->Delete();
+		}
+		else
+		{
+			DWORD dwError = pEx->m_dwError;
+			pEx->Delete();
+			CSerialPort::ThrowSerialException(dwError);
+		}
+	}
+#else
+	catch (CSerialException& e)
+	{
+		if (e.m_dwError == ERROR_IO_PENDING)
+		{
+			DWORD dwBytesTransferred = 0;
+			port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
+		}
+		else
+		{
+			CSerialPort::ThrowSerialException(e.m_dwError);
+		}
+	}
+#endif
+
 	
 	mStart.GetBuffer(800);
 	mStart = buf;
@@ -951,7 +991,7 @@ void CViewPut::OnReadComPort2(void)
 	
 /// Конец процедуры чтения 2-го порта
 #ifdef _DEBUG
-			CViewPut::SetWindowTextW(L"Stop OnReadComPort2");
+			CViewPut::SetWindowTextW(L"Stop OnReadComport02");
 #endif
 
 }
@@ -997,33 +1037,22 @@ UINT ThreadFunc2 (LPVOID pParam)
 	//AfxMessageBox(strPort);
 	
 //   COMMTIMEOUTS timeouts;
-  try
-  {
-
-	//CSerialPort::GetDefaultConfig(n_port, config2);
-	port2.Open(n_port,115200,CSerialPort::NoParity,8,CSerialPort::OneStopBit,
-											CSerialPort::NoFlowControl,0);
-	//port2.Open(n_port);
-
-	hcomm02 = port2.Detach();
-	port2.Attach(hcomm02);
-//	port2.GetTimeouts(timeouts);
-//	timeouts.ReadTotalTimeoutConstant=1000;
-//	port2.SetTimeouts(timeouts);
-//	port2.Set0ReadTimeout();
-//	config.dcb.BaudRate=115200;
-//	port2.SetConfig(config);
-
-	port2.GetConfig(config2);
-	config2.dcb.BaudRate=115200;
-	port2.SetConfig(config2);
-
-//	port2.GetState(dcb2);
-//    dcb2.BaudRate = 115200;
-//    port2.SetState(dcb2);
-
-
+//Try out the overlapped functions
+	//memset(&overlapped2, 0, sizeof(overlapped2));
+	//hcomm02 = CreateEvent(NULL, TRUE, FALSE, NULL);
+	//ATLASSERT(hcomm02 != NULL);
+	//overlapped2.hEvent = hcomm02;
+	try
+	{
+		port02.Open(n_port, 115200, CSerialPort::NoParity, 8, CSerialPort::OneStopBit,CSerialPort::NoFlowControl, FALSE); //NO overlapped functions
+		n_port;
+		hcomm02 = port02.Detach();   
+		port02.Attach(hcomm02);
+		port02.GetConfig(config2);
+		config2.dcb.BaudRate=115200;
+	port02.SetConfig(config2);
   }
+#ifdef CSERIALPORT_MFC_EXTENSIONS
   catch (CSerialException* pEx)
   {
     TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
@@ -1034,11 +1063,25 @@ UINT ThreadFunc2 (LPVOID pParam)
 	AfxMessageBox(soob);
     pEx->Delete();
   }
+#else
+  catch (CSerialException& e)
+  {
+	  if (e.m_dwError == ERROR_IO_PENDING)
+	  {
+		  DWORD dwBytesTransferred = 0;
+		  port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
+	  }
+	  else
+	  {
+		  CSerialPort::ThrowSerialException(e.m_dwError);
+	  }
+  }
+#endif
 	//strPort.Format(_T("Порт COM%i открыт"),n_port);
 	//AfxMessageBox(strPort);
 
 
- // 	port2.GetConfig(config2);
+ // 	port02.GetConfig(config2);
 //	strPort.Format(_T("%i"),config2.dcb.BaudRate);
 //	AfxMessageBox(strPort);
 
@@ -1046,7 +1089,7 @@ UINT ThreadFunc2 (LPVOID pParam)
 } // END ThreadFunc2
 
 
-void CViewPut::OnReadComPort2Thread(void)
+void CViewPut::OnReadComport02Thread(void)
 {
 					////////////////////////////////
 				///
@@ -1087,21 +1130,10 @@ UINT ThreadFuncRead2 (LPVOID pParam)
 			
 	try
 	{
-			
-				//COMMTIMEOUTS timeouts;
-				//timeouts.ReadTotalTimeoutMultiplier = 100000;
-				//port2.SetTimeouts(timeouts);
-				//port2.Set0ReadTimeout();
-				port2.ReadEx(buf,400);  // port.ClearReadBuffer();sRxBuf
-				port2.ClearReadBuffer();
-
-		
-
-				//str_2_Piket.Format(_T("%s"),mStart);
-				//AfxMessageBox(_T("FF"));
-				//mStart.Format(_T("%s"),buf);
-				//AfxMessageBox(mStart);
+				port02.ReadEx(buf,400, &overlapped2, CompletionRoutine);  // port02.ReadEx(buf,400);
+				port02.ClearReadBuffer();
 	}
+#ifdef CSERIALPORT_MFC_EXTENSIONS
 	catch (CSerialException* pEx)
 	{
 		TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
@@ -1115,6 +1147,21 @@ UINT ThreadFuncRead2 (LPVOID pParam)
 //st		pStatus->SetPaneText(0, soob);
 		pEx->Delete();		
 	}
+#else
+		catch (CSerialException& e)
+	{
+		if (e.m_dwError == ERROR_IO_PENDING)
+		{
+			DWORD dwBytesTransferred = 0;
+			port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
+		}
+		else
+		{
+			CSerialPort::ThrowSerialException(e.m_dwError);
+		}
+	}
+#endif
+
 			////////////////////////////////////////////////////////////////////////////
 	///
 
@@ -1492,7 +1539,7 @@ BOOL CViewPut::StartBass(void)
 	return true;
 }
 
-void CViewPut::StartComPort(void)
+INT_PTR  CViewPut::StartComPort(void)
 {
 		int pr =  m_configdat.m_2_strComPort1.Compare(L"Не использовать");
 	// Назначение второй порт
@@ -1506,11 +1553,50 @@ void CViewPut::StartComPort(void)
 	if (!(CFile::GetStatus(ssport, status)))
 			
 		{
-			port02.Open(ComPortStrtoInt(m_configdat.m_2_strComPort1), 
-											9600,CSerialPort::NoParity,8, // 115200
-											CSerialPort::OneStopBit, CSerialPort::NoFlowControl,0);
-			port02.Set0ReadTimeout();  // без этого подвисает
-		}
+			//Try out the overlapped functions
+			//memset(&overlapped2, 0, sizeof(overlapped2));
+			//hcomm02 = CreateEvent(NULL, TRUE, FALSE, NULL);
+			//ATLASSERT(hcomm02 != NULL);
+			//overlapped2.hEvent = hcomm02;
+			int np = ComPortStrtoInt(m_configdat.m_2_strComPort1);
+			try
+			{
+				hcomm02;
+				port02.Open(np, 9600, CSerialPort::NoParity, 8, // 115200
+					CSerialPort::OneStopBit, CSerialPort::NoFlowControl, FALSE); // NO overlapped functions
+				hcomm02 = port02.Detach();
+				port02.Attach(hcomm02);
+	//			port02.Set0ReadTimeout();  // без этого подвисает, NO overlapped functions
+			}
+#ifdef CSERIALPORT_MFC_EXTENSIONS
+			catch (CSerialException* pEx)
+			{
+				ATLTRACE(_T("Unexpected CSerialPort exception, Error:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+				pEx->Delete();
+			}
+#else
+			catch (CSerialException& e)
+			{
+				ATLTRACE(_T("Unexpected CSerialPort exception, Порт:%i Error:%u\n"), np, e.m_dwError);
+				//UNREFERENCED_PARAMETER(e);
+				//Clean up the resources we have been using
+				//delete[] pBuf;
+				e.m_dwError;
+				if (hcomm02 != NULL)
+				{
+					CloseHandle(hcomm02);
+					hcomm02 = NULL;
+				}
+#ifdef CSERIALPORT_MFC_EXTENSIONS
+				return FALSE;
+#else
+				return e.m_dwError;
+#endif
+
+			}
+#endif  //#ifdef CSERIALPORT_MFC_EXTENSIONS
+
+		}						//END if (!(CFile::GetStatus(ssport, status)))
 		//		else //AfxMessageBox(ssport);
 		//{
 		//	CString sss;
@@ -1520,7 +1606,7 @@ void CViewPut::StartComPort(void)
 
 	}
 			
-
+	return 0;
 }
 
 
@@ -1559,3 +1645,13 @@ BOOL CViewPut::StartTime(void)
 
 		return true;
 }
+//////////////////////////////// Implementation ///////////////////////////////
+
+
+VOID WINAPI CompletionRoutine(_In_ DWORD dwErrorCode, _In_ DWORD dwNumberOfBytesTransfered, _Inout_ LPOVERLAPPED lpOverlapped)
+{
+	UNREFERENCED_PARAMETER(dwErrorCode);
+	UNREFERENCED_PARAMETER(dwNumberOfBytesTransfered);
+	UNREFERENCED_PARAMETER(lpOverlapped);
+}
+

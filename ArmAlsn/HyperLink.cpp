@@ -517,7 +517,7 @@ HINSTANCE CHyperLink::GotoURL(LPCTSTR url, int showcmd)
     HINSTANCE result = ShellExecute(NULL, _T("open"), url, NULL,NULL, showcmd);
 
     // If it failed, get the .htm regkey and lookup the program
-    if ((UINT)result <= HINSTANCE_ERROR) {
+   if ((UINT)result <= HINSTANCE_ERROR) {
 
         if (GetRegKey(HKEY_CLASSES_ROOT, _T(".htm"), key) == ERROR_SUCCESS) {
             lstrcat(key, _T("\\shell\\open\\command"));

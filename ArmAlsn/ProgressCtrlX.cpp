@@ -84,6 +84,7 @@ END_MESSAGE_MAP()
 BOOL CProgressCtrlX::OnEraseBkgnd(CDC* pDC) 
 {
 	// TODO: Add your message handler code here and/or call default
+	UNREFERENCED_PARAMETER(pDC);
 	return TRUE; // erase in OnPaint()
 }
 
@@ -143,7 +144,7 @@ void CProgressCtrlX::OnPaint()
 
 void CProgressCtrlX::DrawMultiGradient(const CDrawInfo& info, const CRect &rcGrad, const CRect &rcClip)
 {
-	int nSteps = m_ardwGradColors.GetSize()-1;
+	INT_PTR nSteps = m_ardwGradColors.GetSize()-1;
 	float nWidthPerStep = (float)rcGrad.Width() / nSteps;
 	CRect rcGradBand(rcGrad);
 	for (int i = 0; i < nSteps; i++) 
@@ -352,27 +353,27 @@ void CProgressCtrlX::DrawClippedText(const CDrawInfo& info, const CRect& rcClip,
 
 LRESULT CProgressCtrlX::OnSetBarColor(WPARAM clrEnd, LPARAM clrStart)
 {
-	SetGradientColors(clrStart, clrEnd ? clrEnd : clrStart);
+	SetGradientColors((COLORREF)clrStart, (COLORREF)clrEnd ? (COLORREF)clrEnd : (COLORREF) clrStart);
 
 	return CLR_DEFAULT;
 }
 
 LRESULT CProgressCtrlX::OnSetBkColor(WPARAM, LPARAM clrBk)
 {
-	m_clrBk = clrBk;
+	m_clrBk = (int)clrBk;
 	return CLR_DEFAULT;
 }
 
 LRESULT CProgressCtrlX::OnSetStep(WPARAM nStepInc, LPARAM)
 {
-	m_nStep = nStepInc;
+	m_nStep = (int)nStepInc;
 	return Default();
 }
 
 LRESULT CProgressCtrlX::OnSetPos(WPARAM newPos, LPARAM)
 {
 	int nOldPos;
-	if(SetSnakePos(nOldPos, newPos))
+	if(SetSnakePos(nOldPos, (int)newPos))
 		return nOldPos;
 
 	return Default();
@@ -381,7 +382,7 @@ LRESULT CProgressCtrlX::OnSetPos(WPARAM newPos, LPARAM)
 LRESULT CProgressCtrlX::OnDeltaPos(WPARAM nIncrement, LPARAM)
 {
 	int nOldPos;
-	if(SetSnakePos(nOldPos, nIncrement, TRUE))
+	if(SetSnakePos(nOldPos, (int)nIncrement, TRUE))
 		return nOldPos;
 
 	return Default();

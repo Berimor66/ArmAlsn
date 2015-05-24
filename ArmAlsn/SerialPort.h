@@ -1,8 +1,8 @@
 /*
-Module : SerialPort.H  v1.28
-Purpose: Interface for an MFC wrapper class for serial ports
+Module : SerialPort.h  v2.30
+Purpose: Interface for an C++ wrapper class for serial ports
 
-Copyright (c) 1999 - 2013 by PJ Naughter.  
+Copyright (c) 1999 - 2015 by PJ Naughter.  
 
 All rights reserved.
 
@@ -26,35 +26,100 @@ to maintain a single distribution point for the source code.
 
 #ifndef CSERIALPORT_EXT_CLASS
 #define CSERIALPORT_EXT_CLASS
-#endif
+#endif //#ifndef CSERIALPORT_EXT_CLASS
+
+#ifndef _Out_writes_bytes_
+#define _Out_writes_bytes_(X)
+#endif //#ifndef _Out_writes_bytes_
+
+#ifndef __out_data_source
+#define __out_data_source(X)
+#endif //#ifndef __out_data_source
+
+#ifndef _Out_writes_bytes_to_opt_
+#define _Out_writes_bytes_to_opt_(X,Y)
+#endif //#ifndef _Out_writes_bytes_to_opt_
+
+#ifndef _Out_writes_bytes_opt_
+#define _Out_writes_bytes_opt_(X)
+#endif //#ifndef _Out_writes_bytes_opt_
+
+#ifndef _In_reads_bytes_opt_
+#define _In_reads_bytes_opt_(X)
+#endif //#ifndef _In_reads_bytes_opt_
+
+#ifndef _In_
+#define _In_
+#endif //#ifndef _In_
+
+#ifndef _In_z_
+#define _In_z_
+#endif //#ifndef _In_z_
+
+#ifndef _Inout_opt_
+#define _Inout_opt_
+#endif //#ifndef _Inout_opt_
+
+#ifndef _Out_opt_
+#define _Out_opt_
+#endif //#ifndef _Out_opt_
+
+#ifndef _Out_
+#define _Out_
+#endif //#ifndef _Out_
+
+#ifndef _Inout_
+#define _Inout_
+#endif //#ifndef _Inout_
+
+#ifndef _In_opt_
+#define _In_opt_
+#endif //#ifndef _In_opt_
+
+
+////////////////////////// Includes ///////////////////////////////////////////
+
+#include <sal.h>
+
+#ifndef CSERIALPORT_MFC_EXTENSTIONS
+#include <exception>
+#include <string>
+#endif //#ifndef CSERIALPORT_MFC_EXTENSTIONS
 
 
 /////////////////////////// Classes ///////////////////////////////////////////
 
+#ifdef CSERIALPORT_MFC_EXTENSIONS
 class CSERIALPORT_EXT_CLASS CSerialException : public CException
+#else
+class CSERIALPORT_EXT_CLASS CSerialException : public std::exception
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 {
 public:
 //Constructors / Destructors
-	CSerialException(DWORD dwError);
+  CSerialException(DWORD dwError);
 
 //Methods
+#ifdef CSERIALPORT_MFC_EXTENSIONS
 #ifdef _DEBUG
-	virtual void Dump(CDumpContext& dc) const;
-#endif
+  virtual void Dump(CDumpContext& dc) const;
+#endif //#ifdef _DEBUG
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 #if _MSC_VER >= 1700
-  virtual BOOL GetErrorMessage(_Out_writes_z_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError,	_Out_opt_ PUINT pnHelpContext = NULL);
+  virtual BOOL GetErrorMessage(_Out_z_cap_(nMaxError) LPTSTR lpszError, _In_ UINT nMaxError,	_Out_opt_ PUINT pnHelpContext = NULL);
 #else	
   virtual BOOL GetErrorMessage(__out_ecount_z(nMaxError) LPTSTR lpszError, __in UINT nMaxError, __out_opt PUINT pnHelpContext = NULL);
 #endif
-	CString GetErrorMessage();
+
+#ifdef CSERIALPORT_MFC_EXTENSIONS
+  CString GetErrorMessage();
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 //Data members
-	DWORD m_dwError;
-
-protected:
-	DECLARE_DYNAMIC(CSerialException)
+  DWORD m_dwError;
 };
+
 
 class CSERIALPORT_EXT_CLASS CSerialPort
 {
@@ -91,96 +156,87 @@ public:
   virtual ~CSerialPort();
 
 //General Methods
-  void Open(int nPort, DWORD dwBaud = 9600, Parity parity = NoParity, BYTE DataBits = 8, 
-            StopBits stopBits = OneStopBit, FlowControl fc = NoFlowControl, BOOL bOverlapped = FALSE);
-  void Open(LPCTSTR pszPort, DWORD dwBaud = 9600, Parity parity = NoParity, BYTE DataBits = 8, 
-            StopBits stopBits = OneStopBit, FlowControl fc = NoFlowControl, BOOL bOverlapped = FALSE);
+  void Open(_In_ int nPort, _In_ DWORD dwBaud = 9600, _In_ Parity parity = NoParity, _In_ BYTE DataBits = 8, 
+            _In_ StopBits stopBits = OneStopBit, _In_ FlowControl fc = NoFlowControl, _In_ BOOL bOverlapped = FALSE);
+  void Open(_In_z_ LPCTSTR pszPort, _In_ DWORD dwBaud = 9600, _In_ Parity parity = NoParity, _In_ BYTE DataBits = 8, 
+            _In_ StopBits stopBits = OneStopBit, _In_ FlowControl fc = NoFlowControl, _In_ BOOL bOverlapped = FALSE);
   void Close();
-  void Attach(HANDLE hComm);
+  void Attach(_In_ HANDLE hComm);
   HANDLE Detach();
   operator HANDLE() const { return m_hComm; };
   BOOL IsOpen() const { return m_hComm != INVALID_HANDLE_VALUE; };
+
+#ifdef CSERIALPORT_MFC_EXTENSIONS
 #ifdef _DEBUG
-  void Dump(CDumpContext& dc) const;
-#endif
+  void Dump(_In_ CDumpContext& dc) const;
+#endif //#ifdef _DEBUG
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 //Reading / Writing Methods
-  DWORD Read(void* lpBuf, DWORD dwCount);
-  void  Read(void* lpBuf, DWORD dwCount, OVERLAPPED& overlapped, DWORD* pBytesRead=NULL);
-  void  ReadEx(void* lpBuf, DWORD dwCount);
-  DWORD Write(const void* lpBuf, DWORD dwCount);
-  void  Write(const void* lpBuf, DWORD dwCount, OVERLAPPED& overlapped, DWORD* pBytesWritten=NULL);
-  void  WriteEx(const void* lpBuf, DWORD dwCount);
-  void  TransmitChar(char cChar);
-  void  GetOverlappedResult(OVERLAPPED& overlapped, DWORD& dwBytesTransferred, BOOL bWait);
+  DWORD Read(_Out_writes_bytes_(dwNumberOfBytesToRead) __out_data_source(FILE) void* lpBuffer, _In_ DWORD dwNumberOfBytesToRead);
+  void  Read(_Out_writes_bytes_to_opt_(dwNumberOfBytesToRead, *lpNumberOfBytesRead) __out_data_source(FILE) void* lpBuffer, _In_ DWORD dwNumberOfBytesToRead, _In_ OVERLAPPED& overlapped, _Inout_opt_ DWORD* lpNumberOfBytesRead = NULL);
+  void  ReadEx(_Out_writes_bytes_opt_(dwNumberOfBytesToRead) __out_data_source(FILE) LPVOID lpBuffer, _In_ DWORD dwNumberOfBytesToRead, _Inout_ LPOVERLAPPED lpOverlapped, _In_ LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+  DWORD Write(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) const void* lpBuffer, _In_ DWORD dwNumberOfBytesToWrite);
+  void  Write(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) const void* lpBuffer, _In_ DWORD dwNumberOfBytesToWrite, _In_ OVERLAPPED& overlapped, _Out_opt_ DWORD* lpNumberOfBytesWritten = NULL);
+  void  WriteEx(_In_reads_bytes_opt_(dwNumberOfBytesToWrite) LPCVOID lpBuffer, _In_ DWORD dwNumberOfBytesToWrite, _Inout_ LPOVERLAPPED lpOverlapped, _In_ LPOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+  void  TransmitChar(_In_ char cChar);
+  void  GetOverlappedResult(_In_ OVERLAPPED& overlapped, _Out_ DWORD& dwBytesTransferred, _In_ BOOL bWait);
   void  CancelIo();
   DWORD BytesWaiting();
-  BOOL  DataWaiting(DWORD dwTimeout);
 
 //Configuration Methods
-  void GetConfig(COMMCONFIG& config);
-  static void GetDefaultConfig(int nPort, COMMCONFIG& config);
-  void SetConfig(COMMCONFIG& Config);
-  static void SetDefaultConfig(int nPort, COMMCONFIG& config);
+  void GetConfig(_In_ COMMCONFIG& config);
+  static void GetDefaultConfig(_In_ int nPort, _Out_ COMMCONFIG& config);
+  static void GetDefaultConfig(_In_z_ LPCTSTR pszPort, _Out_ COMMCONFIG& config);
+  void SetConfig(_In_ COMMCONFIG& Config);
+  static void SetDefaultConfig(_In_ int nPort, _In_ COMMCONFIG& config);
+  static void SetDefaultConfig(_In_z_ LPCTSTR pszPort, _In_ COMMCONFIG& config);
 
 //Misc RS232 Methods
   void ClearBreak();
   void SetBreak();
-  void ClearError(DWORD& dwErrors);
-  void GetStatus(COMSTAT& stat);
-  void GetState(DCB& dcb);
-  void SetState(DCB& dcb);
-  void Escape(DWORD dwFunc);
+  void ClearError(_Out_ DWORD& dwErrors);
+  void GetStatus(_Out_ COMSTAT& stat);
+  void GetState(_Out_ DCB& dcb);
+  void SetState(_In_ DCB& dcb);
+  void Escape(_In_ DWORD dwFunc);
   void ClearDTR();
   void ClearRTS();
   void SetDTR();
   void SetRTS();
   void SetXOFF();
   void SetXON();
-  void GetProperties(COMMPROP& properties);
-  void GetModemStatus(DWORD& dwModemStatus); 
+  void GetProperties(_Inout_ COMMPROP& properties);
+  void GetModemStatus(_Out_ DWORD& dwModemStatus); 
 
 //Timeouts
-  void SetTimeouts(COMMTIMEOUTS& timeouts);
-  void GetTimeouts(COMMTIMEOUTS& timeouts);
+  void SetTimeouts(_In_ COMMTIMEOUTS& timeouts);
+  void GetTimeouts(_Out_ COMMTIMEOUTS& timeouts);
   void Set0Timeout();
   void Set0WriteTimeout();
   void Set0ReadTimeout();
 
 //Event Methods
-  void SetMask(DWORD dwMask);
-  void GetMask(DWORD& dwMask);
-  void WaitEvent(DWORD& dwMask);
-  BOOL WaitEvent(DWORD& dwMask, OVERLAPPED& overlapped);
+  void SetMask(_In_ DWORD dwMask);
+  void GetMask(_Out_ DWORD& dwMask);
+  void WaitEvent(_Inout_ DWORD& dwMask);
+  BOOL WaitEvent(_Inout_ DWORD& dwMask, _Inout_ OVERLAPPED& overlapped);
   
 //Queue Methods
   void Flush();
-  void Purge(DWORD dwFlags);
+  void Purge(_In_ DWORD dwFlags);
   void TerminateOutstandingWrites();
   void TerminateOutstandingReads();
   void ClearWriteBuffer();
   void ClearReadBuffer();
-  void Setup(DWORD dwInQueue, DWORD dwOutQueue);
-
-//Overridables
-  virtual void OnCompletion(DWORD dwErrorCode, DWORD dwCount, LPOVERLAPPED lpOverlapped);
+  void Setup(_In_ DWORD dwInQueue, _In_ DWORD dwOutQueue);
 
 //Static methods
-  static void ThrowSerialException(DWORD dwError = 0);
+  static void ThrowSerialException(_In_ DWORD dwError = 0);
 
 protected:
-//Typedefs
-  typedef BOOL (WINAPI CANCELIO)(HANDLE);
-  typedef CANCELIO* LPCANCELIO;
-
-//Static methods
-  static void WINAPI _OnCompletion(DWORD dwErrorCode, DWORD dwCount, LPOVERLAPPED lpOverlapped); 
-
 //Member variables
-  HANDLE     m_hComm;        //Handle to the comms port
-  HANDLE     m_hEvent;       //A event handle we need for internal synchronisation
-  HINSTANCE  m_hKernel32;    //Kernel32 handle
-  LPCANCELIO m_lpfnCancelIo; //CancelIO function pointer
+  HANDLE m_hComm;  //Handle to the comms port
 };
 
-#endif //__SERIALPORT_H__
+#endif //#ifndef __SERIALPORT_H__

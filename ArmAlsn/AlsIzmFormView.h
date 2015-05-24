@@ -85,7 +85,7 @@ protected:
 	bool OpenFileTok(CString filename);
 	bool WriteFileTok(CString filename);
 	
-	INT_PTR m_CurSel;
+	int m_CurSel; //INT_PTR
 	afx_msg void OnBnClickedStik();
 
 
