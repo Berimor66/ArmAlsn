@@ -1,6 +1,6 @@
 
 // ArmAlsn.h : главный файл заголовка для приложения ArmAlsn
-//
+// 222
 #pragma once
 
 #ifndef __AFXWIN_H__
