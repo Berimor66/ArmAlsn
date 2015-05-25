@@ -1,5 +1,5 @@
 /*
-Module : SerialPort.cpp v2.30
+Module : SerialPort.cpp v1.30
 Purpose: Implementation for an C++ wrapper class for serial ports
 Created: PJN / 31-05-1999
 History: PJN / 03-06-1999 1. Fixed problem with code using CancelIo which does not exist on 95.

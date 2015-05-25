@@ -1,5 +1,5 @@
 /*
-Module : SerialPort.h  v2.30
+Module : SerialPort.h  v1.30
 Purpose: Interface for an C++ wrapper class for serial ports
 
 Copyright (c) 1999 - 2015 by PJ Naughter.  

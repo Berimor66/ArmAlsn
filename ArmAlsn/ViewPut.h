@@ -35,7 +35,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 
-	CSerialPort port02;
+	// vall CSerialPort port02;
 //HANDLE hcomm01;
 //HANDLE hcomm02;
 

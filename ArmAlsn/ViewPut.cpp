@@ -22,7 +22,7 @@
 //////////////////// pelix #define SPECWIDTH 3680	// display width ширина
 ////////
 
-CSerialPort port02; // для потоковых функций
+CSerialPort port02; // для потоковых функций вне класса
 HANDLE hcomm02 = 0; // для потоковых функций
 OVERLAPPED overlapped2;
 
@@ -726,14 +726,21 @@ void CViewPut::OnBnClickedCancel()
 // Обработка сообщения RMC от GPS
 void CViewPut::OnGpsRmc(void)
 {
+	CMainFrame* pFrame = (CMainFrame*)AfxGetApp()->m_pMainWnd;
+	if (!RMC.GetLength()) RMC = L"Нет данных";
 	#ifdef _DEBUG 
 	CViewPut::SetWindowTextW(L"Start OnGpsRmc");
+	#else
+	{
+		/// выводим в статусную строку
+		pFrame->OnSetPaneText(RMC);
+	}
 	#endif
 
-	if (!RMC.GetLength()) RMC = L"Нет данных";
-	/// выводим в статусную строку
-	CMainFrame* pFrame = (CMainFrame*) AfxGetApp()->m_pMainWnd;
-	pFrame->OnSetPaneText(RMC);
+	RMC;
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////
@@ -818,7 +825,9 @@ void CViewPut::OnGpsRmc(void)
 				pFrame->m_ViewPut.SetWindowTextW(strSpeed);
 				//
 			}
-			else pFrame->OnSetPaneText(RMC+L" - Некорректрое сообщение") ;
+#ifndef _DEBUG
+			else pFrame->OnSetPaneText(RMC+L" - Некорректрое сообщение") ; //mStart
+#endif
 		}
 
 		
@@ -917,44 +926,36 @@ void CViewPut::OnReadComport02(void)
 				
 	char buf[804];  //404
 	memset(buf,0,804);
-	try
-	{
+
 		port02.Set0ReadTimeout();  // без этого виснет
-		DWORD dwRead = port02.Read(buf, 792);  // port02.ReadEx(buf,792, & overlapped2, CompletionRoutine);
+		
+		port02.ReadEx(buf, 792, &overlapped2,0);  // port02.ReadEx(buf,792, & overlapped2, CompletionRoutine);
 		port02.ClearReadBuffer();
-
-	}
-#ifdef CSERIALPORT_MFC_EXTENSIONS
-	catch (CSerialException* pEx)
-	{
-		if (pEx->m_dwError == ERROR_IO_PENDING)
-		{
-			DWORD dwBytesTransferred = 0;
-			port2.GetOverlappedResult(overlapped, dwBytesTransferred, TRUE);
-			pEx->Delete();
-		}
-		else
-		{
-			DWORD dwError = pEx->m_dwError;
-			pEx->Delete();
-			CSerialPort::ThrowSerialException(dwError);
-		}
-	}
-#else
-	catch (CSerialException& e)
-	{
-		if (e.m_dwError == ERROR_IO_PENDING)
-		{
-			DWORD dwBytesTransferred = 0;
-			port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
-		}
-		else
-		{
-			CSerialPort::ThrowSerialException(e.m_dwError);
-		}
-	}
-#endif
-
+//		try
+//		{
+//	}
+//#ifdef CSERIALPORT_MFC_EXTENSIONS
+//	catch (CSerialException* pEx)
+//	{
+//		if (pEx->m_dwError == ERROR_IO_PENDING)
+//		{
+//			DWORD dwBytesTransferred = 0;
+//			port2.GetOverlappedResult(overlapped, dwBytesTransferred, TRUE);
+//			pEx->Delete();
+//		}
+//		else
+//		{
+//			DWORD dwError = pEx->m_dwError;
+//			pEx->Delete();
+//			CSerialPort::ThrowSerialException(dwError);
+//		}
+//	}
+//#else
+//	catch (CSerialException& e)
+//	{
+//	}
+//#endif
+//
 	
 	mStart.GetBuffer(800);
 	mStart = buf;
@@ -987,7 +988,9 @@ void CViewPut::OnReadComport02(void)
 		pFrame->OnOutputDebugAddString(mStart.Mid(240,mStart.GetLength()));
 	}
 	else pFrame->OnOutputDebugAddString(mStart);
-
+#ifdef _DEBUG
+	pFrame->OnSetPaneText(mStart);
+#endif
 	
 /// Конец процедуры чтения 2-го порта
 #ifdef _DEBUG
