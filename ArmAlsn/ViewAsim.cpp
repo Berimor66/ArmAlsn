@@ -351,28 +351,16 @@ UINT ThreadFunc (LPVOID pParam)
 #ifdef CSERIALPORT_MFC_EXTENSIONS
   catch (CSerialException* pEx)
   {
-    TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
-	CString soob;
-	soob.Format(_T("Ошибка открытия порта №1 %s:\n %s\n"),
-				strPort.Mid(4,6),
-				pEx->GetErrorMessage().operator LPCTSTR());
-	AfxMessageBox(soob);
-     pEx->Delete();
+	  ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+	  pEx->Delete();
   }
 #else
-  catch (CSerialException& e)
+  catch (CSerialException &e)
   {
-	  if (e.m_dwError == ERROR_IO_PENDING)
-	  {
-		  DWORD dwBytesTransferred = 0;
-		  port1.GetOverlappedResult(overlapped1, dwBytesTransferred, TRUE);
-	  }
-	  else
-	  {
-		  CSerialPort::ThrowSerialException(e.m_dwError);
-	  }
-  }
-#endif
+	  ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+	  UNREFERENCED_PARAMETER(e);
+}
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 
 	return FALSE;
@@ -437,26 +425,16 @@ UINT ThreadFuncRead (LPVOID pParam)
 #ifdef CSERIALPORT_MFC_EXTENSIONS
 	catch (CSerialException* pEx)
 	{
-		TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
-		CString soob;
-		soob.Format(_T("Ошибка чтения первого СОМ порта:\n %s\n"),
-		pEx->GetErrorMessage().operator LPCTSTR());
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
 		pEx->Delete();
 	}
 #else
-	catch (CSerialException& e)
+	catch (CSerialException &e)
 	{
-		if (e.m_dwError == ERROR_IO_PENDING)
-		{
-			DWORD dwBytesTransferred = 0;
-			port1.GetOverlappedResult(overlapped1, dwBytesTransferred, TRUE);
-		}
-		else
-		{
-			CSerialPort::ThrowSerialException(e.m_dwError);
-		}
-	}
-#endif
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+		UNREFERENCED_PARAMETER(e);
+}
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 /// Конец процедуры чтения 1-го порта
 	//////////////////////////////////////////////////////////////////////////////////////
 

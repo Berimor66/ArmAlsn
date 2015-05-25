@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.00.0603 */
-/* at Sun May 24 21:08:42 2015
+ /* File created by MIDL compiler version 8.00.0611 */
+/* at Tue Jan 19 05:14:07 2038
  */
 /* Compiler settings for ArmAlsn.idl:
-    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
+    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0611 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -29,7 +29,7 @@
 
 #ifndef __RPCNDR_H_VERSION__
 #error this stub requires an updated version of <rpcndr.h>
-#endif // __RPCNDR_H_VERSION__
+#endif /* __RPCNDR_H_VERSION__ */
 
 
 #ifndef __ArmAlsn_h_h__

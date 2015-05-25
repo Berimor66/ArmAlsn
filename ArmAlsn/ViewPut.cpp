@@ -218,11 +218,11 @@ BOOL CViewPut::OnInitDialog()
 	}
 
 ////////////////////////////////////////////////////////////////
-	BOOL sc = StartComPort();
+	INT_PTR sc = StartComPort();
 	if (sc)
 	{
 			CString sss;
-			sss.Format(L"Порт %s не найден или не доступен. \r\n \r\n            \t   Проверте настройки",m_configdat.m_2_strComPort1);
+			sss.Format(L"Порт %s не найден или не доступен. \r\n Ошибка № %i\r\n            \t   Проверте настройки",m_configdat.m_2_strComPort1, sc);
 			AfxMessageBox(sss);
 			return false;
 	}
@@ -926,40 +926,33 @@ void CViewPut::OnReadComport02(void)
 				
 	char buf[804];  //404
 	memset(buf,0,804);
-
+	try
+		{
 		port02.Set0ReadTimeout();  // без этого виснет
-		
-		port02.ReadEx(buf, 792, &overlapped2,0);  // port02.ReadEx(buf,792, & overlapped2, CompletionRoutine);
+		port02.Read(buf, 792);  // port02.ReadEx(buf,792, & overlapped2, CompletionRoutine);
 		port02.ClearReadBuffer();
-//		try
-//		{
-//	}
-//#ifdef CSERIALPORT_MFC_EXTENSIONS
-//	catch (CSerialException* pEx)
-//	{
-//		if (pEx->m_dwError == ERROR_IO_PENDING)
-//		{
-//			DWORD dwBytesTransferred = 0;
-//			port2.GetOverlappedResult(overlapped, dwBytesTransferred, TRUE);
-//			pEx->Delete();
-//		}
-//		else
-//		{
-//			DWORD dwError = pEx->m_dwError;
-//			pEx->Delete();
-//			CSerialPort::ThrowSerialException(dwError);
-//		}
-//	}
-//#else
-//	catch (CSerialException& e)
-//	{
-//	}
-//#endif
-//
+		}
+
+#ifdef CSERIALPORT_MFC_EXTENSIONS
+	catch (CSerialException* pEx)
+	{
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+		pEx->Delete();
+	}
+#else
+	catch (CSerialException &e)
+	{
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+		UNREFERENCED_PARAMETER(e);
+	}
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 	
 	mStart.GetBuffer(800);
 	mStart = buf;
 	mStart.TrimRight();
+
+	//Clean up the resources we have been using
+	//delete[] buf;
 	
 	int ns;
 	ns = mStart.Find(L"$GPRMC",0);
@@ -1056,30 +1049,18 @@ UINT ThreadFunc2 (LPVOID pParam)
 	port02.SetConfig(config2);
   }
 #ifdef CSERIALPORT_MFC_EXTENSIONS
-  catch (CSerialException* pEx)
-  {
-    TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
-	CString soob;
-	soob.Format(_T("Ошибка открытия порта №2 %s:\n %s\n"),
-				strPort.Mid(4,6),  //nPort->GetString(),
-				pEx->GetErrorMessage().operator LPCTSTR());
-	AfxMessageBox(soob);
-    pEx->Delete();
-  }
+	catch (CSerialException* pEx)
+	{
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+		pEx->Delete();
+	}
 #else
-  catch (CSerialException& e)
-  {
-	  if (e.m_dwError == ERROR_IO_PENDING)
-	  {
-		  DWORD dwBytesTransferred = 0;
-		  port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
-	  }
-	  else
-	  {
-		  CSerialPort::ThrowSerialException(e.m_dwError);
-	  }
-  }
-#endif
+	catch (CSerialException &e)
+	{
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+		UNREFERENCED_PARAMETER(e);
+	}
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 	//strPort.Format(_T("Порт COM%i открыт"),n_port);
 	//AfxMessageBox(strPort);
 
@@ -1139,31 +1120,16 @@ UINT ThreadFuncRead2 (LPVOID pParam)
 #ifdef CSERIALPORT_MFC_EXTENSIONS
 	catch (CSerialException* pEx)
 	{
-		TRACE(_T("Handle Exception, Message:%s\n"), pEx->GetErrorMessage().operator LPCTSTR());
-		CString soob;
-		soob.Format(_T("Ошибка чтения порта №2:\n %s\n"),
-						pEx->GetErrorMessage().operator LPCTSTR());
-		//AfxMessageBox(soob);
-		/// выводим в статусную строку
-//st		CMainFrame* pFrame = (CMainFrame*) AfxGetApp()->m_pMainWnd;
-//st		CStatusBar* pStatus = &pFrame->m_wndStatusBar;
-//st		pStatus->SetPaneText(0, soob);
-		pEx->Delete();		
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+		pEx->Delete();
 	}
 #else
-		catch (CSerialException& e)
+	catch (CSerialException &e)
 	{
-		if (e.m_dwError == ERROR_IO_PENDING)
-		{
-			DWORD dwBytesTransferred = 0;
-			port02.GetOverlappedResult(overlapped2, dwBytesTransferred, TRUE);
-		}
-		else
-		{
-			CSerialPort::ThrowSerialException(e.m_dwError);
-		}
+		ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+		UNREFERENCED_PARAMETER(e);
 	}
-#endif
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 
 			////////////////////////////////////////////////////////////////////////////
 	///
@@ -1574,31 +1540,16 @@ INT_PTR  CViewPut::StartComPort(void)
 #ifdef CSERIALPORT_MFC_EXTENSIONS
 			catch (CSerialException* pEx)
 			{
-				ATLTRACE(_T("Unexpected CSerialPort exception, Error:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
+				ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u,%s\n"), pEx->m_dwError, pEx->GetErrorMessage().operator LPCTSTR());
 				pEx->Delete();
 			}
 #else
-			catch (CSerialException& e)
+			catch (CSerialException &e)
 			{
-				ATLTRACE(_T("Unexpected CSerialPort exception, Порт:%i Error:%u\n"), np, e.m_dwError);
-				//UNREFERENCED_PARAMETER(e);
-				//Clean up the resources we have been using
-				//delete[] pBuf;
-				e.m_dwError;
-				if (hcomm02 != NULL)
-				{
-					CloseHandle(hcomm02);
-					hcomm02 = NULL;
-				}
-#ifdef CSERIALPORT_MFC_EXTENSIONS
-				return FALSE;
-#else
-				return e.m_dwError;
-#endif
-
+				ATLTRACE(_T("Неожиданное исключение CSerialPort, Ошибка:%u\n"), e.m_dwError);
+				UNREFERENCED_PARAMETER(e);
 			}
-#endif  //#ifdef CSERIALPORT_MFC_EXTENSIONS
-
+#endif //#ifdef CSERIALPORT_MFC_EXTENSIONS
 		}						//END if (!(CFile::GetStatus(ssport, status)))
 		//		else //AfxMessageBox(ssport);
 		//{
