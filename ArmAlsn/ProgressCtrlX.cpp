@@ -435,7 +435,7 @@ BOOL CProgressCtrlX::SetSnakePos(int& nOldPos, int nNewPos, BOOL fIncrement)
 	if(m_nTail < nLower)
 		m_nTail = nLower;
 
-	nOldPos = DefWindowProc(PBM_SETPOS, nNewPos, 0);
+	nOldPos = (int) DefWindowProcW(PBM_SETPOS, nNewPos, 0);
 	return TRUE;
 }
 
