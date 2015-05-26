@@ -47,6 +47,8 @@ CAlsIzmFormView::CAlsIzmFormView()
 {
 	m_ozi = -1; // неудача
 	m_PK_obgect_start=0;
+	m_TOK = 0;
+	m_TOK1 = 0;
 	// Progress bar
 	//{{AFX_DATA_INIT(CAlsIzmFormView)
 	m_fUseBrush = FALSE;
@@ -179,7 +181,25 @@ void CAlsIzmFormView::OnInitialUpdate()
 		m_Itinerary.SetCurSel(0);	
 		//dataItin.CloseAll();
 
+		/////////////////////////////
+		DWORD dwAttrs;
+		LPCWSTR aa = L"Data\\";
 
+		dwAttrs = GetFileAttributes(aa);   // Не работает
+
+		if (dwAttrs == INVALID_FILE_ATTRIBUTES)
+		{
+			//AfxMessageBox( L"Нет такой папки!!");
+			if (!CreateDirectory(aa, NULL))
+			{
+				AfxMessageBox(L"Не могу создать подпапку \"Data\" в рабочем каталоге");
+			}
+		}
+
+		
+
+
+		////////////////////////////////////////////
 
 		OnCbnSelchangeItineraryIzm(); // выбрать 1-й маршрут
 		// Пишем ток
@@ -360,6 +380,8 @@ void CAlsIzmFormView::OnCbnSelchangeItineraryIzm()
 				m_Coupe.SetCurSel(0);
 				m_Obgect.SetCurSel(0);
 				m_Obgect_old.SetCurSel(-1);
+				// И поехали
+				OnBnClickedStartIzm();
 				
 			}
 			else AfxMessageBox(L"Ошибка запроса к базе Объекты");
@@ -549,8 +571,9 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 
 
 
-
-
+#ifdef _DEBUG
+	WriteFileTok(m_strPK_current + L"\t" + m_strTOK_current); // пишем каждый
+#endif
 
 
 
@@ -559,9 +582,12 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 
 	///////////
 	int res = 0;
+
 	// Уже проехали
-	if ((theApp.m_ipiketkp==1) & ((m_PK_current +0.03) > m_PK_obgect)) res = 1;
-	if ((theApp.m_ipiketkp==0) & ((m_PK_current -0.030) < m_PK_obgect)) res = 1;
+	if ((theApp.m_ipiketkp==1) & ((m_PK_current -0.40) > m_PK_obgect)) res = 1; //+0.03  Ждем 20 метров
+	if ((theApp.m_ipiketkp==0) & ((m_PK_current +0.40) < m_PK_obgect)) res = 1; //-0.030
+	if (((m_TOK+m_TOK) < m_TOK1)) res = 1; // Ток изменился в 2 раза
+	m_TOK1 = m_TOK;
 	if (res)
 	{
 		OnBnClickedStik();
@@ -579,8 +605,8 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 		//FileTok.Close();
 	}
 	UpdateData(FALSE);
-
-	///PB
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///ProgressBar
 		if(m_iProgressMode == PROGRESS)
 	{
 		//if((UINT)m_pos > m_nRange)
@@ -685,9 +711,9 @@ afx_msg LRESULT CAlsIzmFormView::OnTok(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
    //AfxMessageBox(L"Tok из AlsIzmFormView");
+	m_TOK = wParam;
 
-	int s3=(int)wParam/10;
-
+	UINT_PTR s3 = wParam/10;
 	m_strTOK_current.Format(L"%d.%d A",wParam/10,wParam-s3*10);
 	UpdateData(FALSE);
 	return 0;

@@ -66,6 +66,10 @@ protected:
  	CString m_str_Latitude;
 	CString m_str_Longitude;
 	CString m_strTOK_current;
+	//Текущий ток
+	INT_PTR m_TOK;
+	//Предыдущий ток
+	INT_PTR m_TOK1;
 	//Текущий км столб
 	CString m_strStolbKm_current;
 	//COziExplorerMap OziExplorer;  // Доступ к карте
