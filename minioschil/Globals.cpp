@@ -358,7 +358,7 @@ void On_Tok_Message(DWORD tok)
 	if ( hOtherWnd )
 	{
 		// Нашли фрейм окна с названием Измерения
-		hOtherWnd1= FindWindowEx(hOtherWnd,NULL,ClassNameMDI,0); //MAKEINTATOM(32770)//hOtherWnd1=(HWND)3216274; //0x00311392
+		hOtherWnd1= FindWindowEx(hOtherWnd,NULL, MDIFrameName,0); //MAKEINTATOM(32770)//hOtherWnd1=(HWND)3216274; //0x00311392
 		// Нашли окно диалога с током
 		hOtherWnd2= FindWindowEx(hOtherWnd1,NULL,MAKEINTATOM(32770),0); //MAKEINTATOM(32770)
 		// Послали значение тока
@@ -483,12 +483,12 @@ void waveform_imp()
 		///================= +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		// Вывод нижнего графика
-		long vv;
+		long long vv;
 		interval_max=0;
 		impuls1=0;
 		for (x=0;x<SPECWIDTH;x++) 
 		{
-			vv= buf[x*ci.chans+c]; // invert and scale to fit display тк наш экран в 2 раза ниже  (int)
+			vv= (__int64) buf[x*ci.chans+c]; // invert and scale to fit display тк наш экран в 2 раза ниже  (int)
 			if (vv<0.0) vv=abs(vv);
 			if (vv>0.05) 
 			{

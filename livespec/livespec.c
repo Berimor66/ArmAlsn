@@ -318,12 +318,35 @@ void CALLBACK UpdateSpectrum(UINT uTimerID, UINT uMsg, DWORD dwUser, DWORD dw1, 
 			// AfxFrameOrView100ud -debug
 			// AfxFrameOrView100u  -release
 #ifndef _DEBUG
+#ifdef _VS100
 #define ClassName "AfxFrameOrView100u"
 #define MDIFrameName "AfxMDIFrame100u"
 #endif
+#ifdef _VS120
+#define ClassName "AfxFrameOrView120u"
+#define MDIFrameName "AfxMDIFrame120u"
+#endif
+#ifdef _VS140
+#define ClassName "AfxFrameOrView140u"
+#define MDIFrameName "AfxMDIFrame140u"
+#endif	
+#endif
+
+
+
 #ifdef _DEBUG
-#define ClassName "AfxFrameOrView100ud"
-#define MDIFrameName "AfxMDIFrame100ud"
+	#ifdef _VS100
+	#define ClassName "AfxFrameOrView100ud"
+	#define MDIFrameName "AfxMDIFrame100ud"
+	#endif
+	#ifdef _VS120
+	#define ClassName "AfxFrameOrView120ud"
+	#define MDIFrameName "AfxMDIFrame120ud"
+	#endif
+	#ifdef _VS140
+	#define ClassName "AfxFrameOrView140ud"
+	#define MDIFrameName "AfxMDIFrame140ud"
+	#endif	
 #endif
 		hOtherWnd = FindWindow( ClassName, "Измерение1 - Измерения" ); 
 		if ( hOtherWnd )

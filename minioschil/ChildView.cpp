@@ -231,11 +231,11 @@ void CChildView::OnCheckIzm()
 	// TODO: добавьте свой код обработчика команд
 
 
-	hOtherWnd = ::FindWindow( ClassName, L"Измерение1 - Измерения" );  // (HWND)
+	hOtherWnd = ::FindWindow(ClassName, L"Измерение1 - Измерения" );  // (HWND)
 	if ( hOtherWnd )
 	{
 			// Нашли фрейм окна с названием Измерения
-		hOtherWnd1= ::FindWindowEx(hOtherWnd,NULL,ClassNameMDI,0); //MAKEINTATOM(32770)//hOtherWnd1=(HWND)3216274; //0x00311392
+		hOtherWnd1= ::FindWindowEx(hOtherWnd,NULL, MDIFrameName,0); //MAKEINTATOM(32770)//hOtherWnd1=(HWND)3216274; //0x00311392
 		//hOtherWnd1= FindWindowEx(hOtherWnd,NULL,ClassNameMDI,0);
 		if(!hOtherWnd1) AfxMessageBox(L"Фрейм Измерения НЕ найден", 0, MB_OK );
 		// Нашли окно диалога с током

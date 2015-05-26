@@ -45,9 +45,6 @@
     <ClCompile Include="livespec.c" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\MyLib\32\bass.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

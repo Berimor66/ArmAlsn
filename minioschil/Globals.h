@@ -9,14 +9,35 @@
 #define WM_MYMESSAGE WM_USER+5 //
 
 #ifndef _DEBUG
+#ifdef _VS100
 #define ClassName L"AfxFrameOrView100u"
-#define ClassNameMDI L"AfxMDIFrame100ud"
+#define MDIFrameName L"AfxMDIFrame100u"
+#endif
+#ifdef _VS120
+#define ClassName L"AfxFrameOrView120u"
+#define MDIFrameName L"AfxMDIFrame120u"
+#endif
+#ifdef _VS140
+#define ClassName L"AfxFrameOrView140u"
+#define MDIFrameName L"AfxMDIFrame140u"
+#endif	
 #endif
 //#pragma warning(push)
 //#pragma warning(disable:4005)
 #ifdef _DEBUG
+#ifdef _VS100
 #define ClassName L"AfxFrameOrView100ud"
-#define ClassNameMDI L"AfxMDIFrame100ud"
+#define MDIFrameName L"AfxMDIFrame100ud"
+#endif
+#ifdef _VS120
+#define ClassName L"AfxFrameOrView120ud"
+#define MDIFrameName L"AfxMDIFrame120ud"
+#endif
+#ifdef _VS140
+#define ClassName L"AfxFrameOrView140ud"
+#define MDIFrameName L"AfxMDIFrame140ud"
+#endif	
+
 #endif
 //#pragma warning(pop)
 
