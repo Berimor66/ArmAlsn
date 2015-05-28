@@ -185,7 +185,7 @@ void CAlsIzmFormView::OnInitialUpdate()
 		DWORD dwAttrs;
 		LPCWSTR aa = L"Data\\";
 
-		dwAttrs = GetFileAttributes(aa);   // Не работает
+		dwAttrs = GetFileAttributes(aa);   // 
 
 		if (dwAttrs == INVALID_FILE_ATTRIBUTES)
 		{
@@ -381,7 +381,7 @@ void CAlsIzmFormView::OnCbnSelchangeItineraryIzm()
 				m_Obgect.SetCurSel(0);
 				m_Obgect_old.SetCurSel(-1);
 				// И поехали
-				OnBnClickedStartIzm();
+				//OnBnClickedStartIzm();
 				
 			}
 			else AfxMessageBox(L"Ошибка запроса к базе Объекты");
@@ -565,21 +565,13 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 	m_strPK_n.Format(_T(" %.3f "),m_PK_obgect_start); 
 	m_strPK_k.Format(_T(" %.3f "),m_PK_obgect); 
 	/////
-
-
-
-
-
+	
 
 #ifdef _DEBUG
 	WriteFileTok(m_strPK_current + L"\t" + m_strTOK_current); // пишем каждый
 #endif
 
-
-
-
-
-
+	
 	///////////
 	int res = 0;
 
@@ -607,43 +599,23 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 	UpdateData(FALSE);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///ProgressBar
-		if(m_iProgressMode == PROGRESS)
+	if(m_iProgressMode == PROGRESS)  //m_iProgressMode == PROGRESS
 	{
-		//if((UINT)m_pos > m_nRange)
-		//	m_pos = m_nRange;
-		//if(m_pos < 0)
-		//	m_pos = 0;
-		//if((UINT)m_pos == m_nRange)
-		//	m_inc = FALSE;
-		//if(m_pos == 0)
-		//	m_inc = TRUE;
-		//m_pos += (m_inc ? m_nStepSize : -m_nStepSize);
-		///
 		CString ssp1;
 		if (theApp.m_ipiketkp==1)  
 		{
-			m_nRange = (int)((m_PK_obgect - m_PK_obgect_start)*1000);
-			m_pos = (int)((m_PK_current - m_PK_obgect_start)*100 / (m_PK_obgect - m_PK_obgect_start));
-			m_nRange=m_nRange*1000;
-			if(m_pos > m_nRange)	m_pos = m_nRange; //(UINT)
-			if(m_pos < 0)	m_pos = 0;
-
-			ssp1.Format(L" %.3f м",m_nRange); //m_nRange.0
-			ssp1;
-			//AfxMessageBox(ssp1);
+			m_nRange = (unsigned int)((m_PK_obgect - m_PK_obgect_start)*1000);
+			m_pos = (unsigned int)((m_PK_current - m_PK_obgect_start)*100 / (m_PK_obgect - m_PK_obgect_start));
 		}
 		// 
 		if (theApp.m_ipiketkp==0)  
 		{
-			m_nRange = (int)((m_PK_obgect_start - m_PK_obgect)*1000);
-			m_pos = (int)(m_PK_obgect_start-((m_PK_obgect_start-m_PK_current)*100 / (m_PK_obgect_start-m_PK_obgect)));
-			m_nRange=m_nRange*1000;
-			
-			if(m_pos < m_nRange)	m_pos = m_nRange;
-			if(m_pos < 0)	m_pos = 0;
-			ssp1.Format(L" %.3f м",m_nRange);
+			m_nRange = (unsigned int)((m_PK_obgect_start - m_PK_obgect)*1000);
+			m_pos = (unsigned int)((m_PK_obgect_start-m_PK_current)*100 / (m_PK_obgect_start-m_PK_obgect));
 		}
-		
+		if (m_pos > m_nRange)	m_pos = m_nRange;
+		if (m_pos < 0)	m_pos = 0;
+		ssp1.Format(L" %d м", m_nRange); // %.3f
 		m_progressH.SetTextFormat(ssp1);
 		m_progressH.Invalidate();
 		//m_PK_current 
