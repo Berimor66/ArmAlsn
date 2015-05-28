@@ -95,7 +95,7 @@ void CAlsIzmFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TOK_IZM, m_TOK_current_Ctrl);
 	DDX_Text(pDX, IDC_STOLB_KM, m_strStolbKm_current);
 	DDX_Control(pDX, IDC_START_IZM, StartIzm);
-	DDX_Control(pDX, IDC_PROGRESS_H, m_progressH); // pb
+	DDX_Control(pDX, IDC_PROGRESS_H, m_progressH); // ProgressBar
 }
 
 //
@@ -584,8 +584,8 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 	int res = 0;
 
 	// Уже проехали
-	if ((theApp.m_ipiketkp==1) & ((m_PK_current -0.40) > m_PK_obgect)) res = 1; //+0.03  Ждем 20 метров
-	if ((theApp.m_ipiketkp==0) & ((m_PK_current +0.40) < m_PK_obgect)) res = 1; //-0.030
+	if ((theApp.m_ipiketkp==1) & ((m_PK_current -0.05) > m_PK_obgect)) res = 1; //+0.03  Ждем 20 метров
+	if ((theApp.m_ipiketkp==0) & ((m_PK_current +0.05) < m_PK_obgect)) res = 1; //-0.030
 	if (((m_TOK+m_TOK) < m_TOK1)) res = 1; // Ток изменился в 2 раза
 	m_TOK1 = m_TOK;
 	if (res)
@@ -619,23 +619,33 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 		//	m_inc = TRUE;
 		//m_pos += (m_inc ? m_nStepSize : -m_nStepSize);
 		///
+		CString ssp1;
 		if (theApp.m_ipiketkp==1)  
 		{
-			m_nRange = (m_PK_obgect - m_PK_obgect_start)*1000;
-			m_pos = (int)(((m_PK_current - m_PK_obgect_start)*100) / (m_PK_obgect - m_PK_obgect_start));
-			//m_nRange=m_nRange*1000;
-			//if(m_pos > m_nRange)	m_pos = m_nRange; //(UINT)
-			//if(m_pos < 0)	m_pos = 0;
+			m_nRange = (int)((m_PK_obgect - m_PK_obgect_start)*1000);
+			m_pos = (int)((m_PK_current - m_PK_obgect_start)*100 / (m_PK_obgect - m_PK_obgect_start));
+			m_nRange=m_nRange*1000;
+			if(m_pos > m_nRange)	m_pos = m_nRange; //(UINT)
+			if(m_pos < 0)	m_pos = 0;
 
-			CString ssp1;
-			ssp1.Format(_T(" %.0f м"),m_nRange); //m_nRange
+			ssp1.Format(L" %.3f м",m_nRange); //m_nRange.0
+			ssp1;
 			//AfxMessageBox(ssp1);
-
+		}
+		// 
+		if (theApp.m_ipiketkp==0)  
+		{
+			m_nRange = (int)((m_PK_obgect_start - m_PK_obgect)*1000);
+			m_pos = (int)(m_PK_obgect_start-((m_PK_obgect_start-m_PK_current)*100 / (m_PK_obgect_start-m_PK_obgect)));
+			m_nRange=m_nRange*1000;
+			
+			if(m_pos < m_nRange)	m_pos = m_nRange;
+			if(m_pos < 0)	m_pos = 0;
+			ssp1.Format(L" %.3f м",m_nRange);
+		}
+		
 		m_progressH.SetTextFormat(ssp1);
 		m_progressH.Invalidate();
-			
-		}
-		if (theApp.m_ipiketkp==0)  m_nRange = m_PK_obgect_start - m_PK_obgect;
 		//m_PK_current 
 		//if (theApp.m_ipiketkp==1)  m_PK_obgect 
 		m_progressH.SetPos(BASE+m_pos);

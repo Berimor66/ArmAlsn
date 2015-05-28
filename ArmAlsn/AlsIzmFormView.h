@@ -121,7 +121,7 @@ public:
 	int		m_nBorder;
 	int		m_iTextMode;
 	int		m_iProgressMode;
-	double	m_nRange; //UINT
+	int		m_nRange; //UINTdouble
 	int 	m_nStepSize;
 	UINT	m_nTailSize;
 	//}}AFX_DATA
