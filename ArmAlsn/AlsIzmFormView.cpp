@@ -602,12 +602,13 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 	if(m_iProgressMode == PROGRESS)  //m_iProgressMode == PROGRESS
 	{
 		CString ssp1;
+		//  на увеличение
 		if (theApp.m_ipiketkp==1)  
 		{
 			m_nRange = (unsigned int)((m_PK_obgect - m_PK_obgect_start)*1000);
 			m_pos = (unsigned int)((m_PK_current - m_PK_obgect_start)*100 / (m_PK_obgect - m_PK_obgect_start));
 		}
-		// 
+		// на уменьшение
 		if (theApp.m_ipiketkp==0)  
 		{
 			m_nRange = (unsigned int)((m_PK_obgect_start - m_PK_obgect)*1000);
@@ -618,23 +619,19 @@ void CAlsIzmFormView::OnTimer(UINT_PTR nIDEvent)
 		ssp1.Format(L" %d м", m_nRange); // %.3f
 		m_progressH.SetTextFormat(ssp1);
 		m_progressH.Invalidate();
-		//m_PK_current 
-		//if (theApp.m_ipiketkp==1)  m_PK_obgect 
 		m_progressH.SetPos(BASE+m_pos);
 	}
 	else
 	{
 		m_progressH.StepIt();
 	}
-	
-
-	///PB end
-	////////////////////////////
+	///ProgressBar end
+	//////////////////////////////////////////////////////////////////////////////////////////////////
 	CFormView::OnTimer(nIDEvent);
 }
 
 // организация разделяемой между процессами области данных на основе //специального сегмента данных
-//
+///
 #pragma data_seg ("MY_DATA") 
 TCHAR cSharedData[100] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 #pragma data_seg () 
@@ -643,16 +640,6 @@ TCHAR cSharedData[100] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void CAlsIzmFormView::OnBnClickedStik()
 {
-	// TODO: добавьте свой код обработчика уведомлений
-	/////
-	//dataObject.MovePrev();
-	// получить доступ к объекту класса CMainFrame можно так:
-	//CMainFrame *pMainFrame = (CMainFrame*)(::AfxGetMainWnd()); 
-	//put = &pMainFrame->m_ViewPut;
-
-		 //AfxMessageBox(L"Маршрут закончен");
-//		 OnTok(0,0);
-
 	sss.Format(L"\xFEFF \r\n%s\t%s км\t(База %.3f км)\t%s\r\n", 
 												dataObject.m_ObgectName,
 												m_strPK_current,
@@ -662,9 +649,8 @@ void CAlsIzmFormView::OnBnClickedStik()
 	//sss = ssf; //+dataObject.m_CoupeName+L"\r\n";
 //	put->asimfile.SeekToEnd();
 //	put->asimfile.Write(sss,sss.GetLength()*sizeof(TCHAR ));
-	//dataObject.MoveNext();
 
-	KillTimer(10);
+	KillTimer(10); // на время запросов по базе остановить
 	if (dataObject.MoveNext() == S_OK)
 	{
 		//AfxMessageBox(dataObject.m_ObgectName);
@@ -679,14 +665,9 @@ void CAlsIzmFormView::OnBnClickedStik()
 	}
 	else
 	{
-		//KillTimer(10);
 		AfxMessageBox(L"Маршрут закончен");
 		dataObject.CloseAll();
-
-		}
-		
-
-		
+	}
 }
 
 afx_msg LRESULT CAlsIzmFormView::OnTok(WPARAM wParam, LPARAM lParam)

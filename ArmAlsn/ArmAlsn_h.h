@@ -3,11 +3,11 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 
- /* File created by MIDL compiler version 8.00.0603 */
-/* at Thu May 28 23:10:41 2015
+ /* File created by MIDL compiler version 7.00.0555 */
+/* at Fri May 29 15:47:00 2015
  */
 /* Compiler settings for ArmAlsn.idl:
-    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 
+    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 7.00.0555 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -44,7 +44,6 @@
 #ifndef __IArmAlsn_FWD_DEFINED__
 #define __IArmAlsn_FWD_DEFINED__
 typedef interface IArmAlsn IArmAlsn;
-
 #endif 	/* __IArmAlsn_FWD_DEFINED__ */
 
 
@@ -63,7 +62,6 @@ typedef struct CArmAlsnDoc CArmAlsnDoc;
 #ifndef __IDBVListView_FWD_DEFINED__
 #define __IDBVListView_FWD_DEFINED__
 typedef interface IDBVListView IDBVListView;
-
 #endif 	/* __IDBVListView_FWD_DEFINED__ */
 
 
@@ -120,7 +118,7 @@ EXTERN_C const IID DIID_IArmAlsn;
             IArmAlsn * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            __RPC__deref_out  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IArmAlsn * This);
@@ -148,22 +146,14 @@ EXTERN_C const IID DIID_IArmAlsn;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IArmAlsn * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         END_INTERFACE
     } IArmAlsnVtbl;
@@ -243,7 +233,7 @@ EXTERN_C const IID DIID_IDBVListView;
             IDBVListView * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
-            _COM_Outptr_  void **ppvObject);
+            __RPC__deref_out  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
             IDBVListView * This);
@@ -271,22 +261,14 @@ EXTERN_C const IID DIID_IDBVListView;
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
             IDBVListView * This,
-            /* [annotation][in] */ 
-            _In_  DISPID dispIdMember,
-            /* [annotation][in] */ 
-            _In_  REFIID riid,
-            /* [annotation][in] */ 
-            _In_  LCID lcid,
-            /* [annotation][in] */ 
-            _In_  WORD wFlags,
-            /* [annotation][out][in] */ 
-            _In_  DISPPARAMS *pDispParams,
-            /* [annotation][out] */ 
-            _Out_opt_  VARIANT *pVarResult,
-            /* [annotation][out] */ 
-            _Out_opt_  EXCEPINFO *pExcepInfo,
-            /* [annotation][out] */ 
-            _Out_opt_  UINT *puArgErr);
+            /* [in] */ DISPID dispIdMember,
+            /* [in] */ REFIID riid,
+            /* [in] */ LCID lcid,
+            /* [in] */ WORD wFlags,
+            /* [out][in] */ DISPPARAMS *pDispParams,
+            /* [out] */ VARIANT *pVarResult,
+            /* [out] */ EXCEPINFO *pExcepInfo,
+            /* [out] */ UINT *puArgErr);
         
         END_INTERFACE
     } IDBVListViewVtbl;
