@@ -645,8 +645,8 @@ void CAlsIzmFormView::OnBnClickedStik()
 												m_strPK_current,
 												dataObject.m_Pk,
 												dataObject.m_CoupeName);
-	//sss = L'\xFEFF'+dataObject.m_ObgectName;
-	//sss = ssf; //+dataObject.m_CoupeName+L"\r\n";
+//sss = L'\xFEFF'+dataObject.m_ObgectName;
+//sss = ssf; //+dataObject.m_CoupeName+L"\r\n";
 //	put->asimfile.SeekToEnd();
 //	put->asimfile.Write(sss,sss.GetLength()*sizeof(TCHAR ));
 
