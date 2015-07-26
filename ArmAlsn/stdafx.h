@@ -5,6 +5,9 @@
 
 #pragma once
 
+#pragma comment( user, "Автор Пелых Валерий, создано:" __DATE__ " в " __TIME__ )
+#pragma comment( compiler )
+
 #ifndef _SECURE_ATL
 #define _SECURE_ATL 1
 #endif
