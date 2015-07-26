@@ -831,7 +831,7 @@ BOOL CAboutDlg::OnInitDialog()
 #ifdef _WIN64
 	_stprintf_s((LPWSTR)verfile, 160, L"АРМ АЛСН 64 бит, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
 #else
-	_stprintf_s((LPWSTR)verfile, 160, L"АРМ АЛСН, версии:\nфайла - %s,\nпродукта - %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR));
+	_stprintf_s((LPWSTR)verfile, 160, L"АРМ АЛСН, версии:\nфайла - %s,\nпродукта - %s,\nсоздано - %s в %s",_T(VERSION_FILESTR),_T(VERSION_PRODUCTSTR), _T(VERSION_DATE),_T(__TIME__)); //__DATE__
 	//wsprintf((LPWSTR)verprdt, L"Версия продукта: %s",_T(VERSION_PRODUCTSTR));
 #endif
 	SetDlgItemText(IDC_VERFILE,(LPCTSTR)verfile);
@@ -839,24 +839,25 @@ BOOL CAboutDlg::OnInitDialog()
 	#ifdef VERSION_BASEYEAR
 	if(VERSION_BASEYEAR != 0)
 	{
-		char buff[160];
-		char yearindex[3];
-		char dayindex[4];
+		TCHAR buff[160];
+		TCHAR yearindex[3];
+		TCHAR dayindex[4];
 		int yi,di,year ;
 
-		sprintf_s(buff,"%05d",VERSION_BUILDNO); // sprintf(buff,"%05d",VERSION_BUILDNO);
-		strncpy_s(dayindex,buff+2,3);
-		yi = atoi(yearindex);
-		di = atoi(dayindex);
-
-		struct tm today;
+		swprintf_s(buff,L"%05d",VERSION_BUILDNO); // sprintf(buff,"%05d",VERSION_BUILDNO);
+		wcsncpy_s(yearindex, buff, 2);
+		wcsncpy_s(dayindex,buff+2,3);
+		yi = _wtoi(yearindex);
+		di = _wtoi(dayindex);
+		
+		struct tm today, t2;
 		getdatetime(0,&today);
 
-		struct tm t2;
+		//struct tm t2;
 		t2 = getdatebyspan(today.tm_year,di);//Get Date by Daily Offset from start of Year.(01/01)
 		year = VERSION_BASEYEAR + yi;
-
-		wsprintf((LPWSTR)buff,L"(C)  Дорожная лаборатория \nА.Т. и С.  Южной ж.д. \n%5dг. - %02d-%02d-%04dг.",VERSION_BASEYEAR,t2.tm_mday,t2.tm_mon + 1,year); 
+		//(LPWSTR)
+		wsprintf(buff,L"(C)  Лаборатория А.Т.иС. Южной ж.д. \n%5dг. - %02d-%02d-%04dг.",VERSION_BASEYEAR,t2.tm_mday,t2.tm_mon + 1,year); 
 		SetDlgItemText(IDC_DAILYBASIS,(LPCTSTR)buff);
 
 		//wsprintf((LPWSTR)baseyear,L" %d",VERSION_BASEYEAR);
